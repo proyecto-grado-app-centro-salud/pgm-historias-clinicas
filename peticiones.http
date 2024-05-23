@@ -1,0 +1,107 @@
+POST http://localhost:8084/fichas-medicas
+Content-Type: application/json
+
+{
+    "idPaciente":2,
+    "codigoFichaMedica":"dsfn",
+    "idTurnoAtencion":1,
+    "numeroFicha":1
+}
+
+###
+GET http://localhost:8084/fichas-medicas/2
+
+
+###
+GET http://localhost:8084/fichas-medicas/info-container
+
+###
+GET http://localhost:8084/manage/health
+
+
+###
+POST http://localhost:8082/historias-clinicas
+Content-Type: application/json
+
+{
+    "amnesis":"",
+    "antecedentesFamiliares":"",
+    "antecedentesGinecoobstetricos":"",
+    "antecedentesNoPatologicos":"",
+    "antecedentesPersonales":"",
+    "diagnosticoPresuntivo":"",
+    "diagnosticosDiferenciales":"",
+    "examenFisico":"",
+    "examenFisicoEspecial":"",
+    "propuestaBasicaDeConducta":"",
+    "tratamiento":"tratamiento1",
+    "idPaciente":2
+}
+###
+PUT http://localhost:8082/historias-clinicas/1
+Content-Type: application/json
+
+{
+    "amnesis":"nombre amnesis 1",
+    "antecedentesFamiliares":"",
+    "antecedentesGinecoobstetricos":"",
+    "antecedentesNoPatologicos":"",
+    "antecedentesPersonales":"",
+    "diagnosticoPresuntivo":"",
+    "diagnosticosDiferenciales":"",
+    "examenFisico":"",
+    "examenFisicoEspecial":"",
+    "propuestaBasicaDeConducta":"",
+    "tratamiento":"tratamiento1"
+}
+###
+GET http://localhost:8082/historias-clinicas/2
+
+###
+GET http://localhost:8082/historias-clinicas
+
+###
+GET http://44.223.13.220:8082/historias-clinicas/info-container
+
+###
+GET http://44.223.13.220:8082/manage/health
+
+
+
+
+
+###
+POST http://localhost:8081/auth/sign-up
+Content-Type: application/json
+
+{
+    "id":"1",
+    "name":"Vico",
+    "lastname":"Villazante",
+    "email":"vico060400@gmail.com",
+    "password":"Abc123"
+}
+
+###
+POST http://localhost:8081/auth/sign-in
+Content-Type: application/json
+
+{
+    "email":"vico060400@gmail.com",
+    "password":"Abc123"
+}
+###
+GET http://localhost:8081/message/user-message
+Content-Type: application/json
+Authorization: Bearer eyJraWQiOiJ1aHV0bGR1dGtvNVgxVzcyY1BIZHRHVDkwSWxmWkFWc29JeGxnd0pCK3IwPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI0NGE4ZTQ2OC1mMDIxLTcwN2EtNjFkZi00MWZhNmQ3ZmIzYzciLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV81ZU5xWnhmMngiLCJjbGllbnRfaWQiOiI0dTE2dW9vdWNyZTU0bGw0aGNyb3EzZzJqaiIsIm9yaWdpbl9qdGkiOiI3OGU5MDFlZC1mNWZiLTQ3YWEtYTMxNi03YzY0NGY1MmY1MjgiLCJldmVudF9pZCI6ImU4OGQ0ZTY4LTNiZDUtNGM2YS1iYjA3LWY4MjU1ODQ0ZjI0MSIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE3MTY0NDEzMjksImV4cCI6MTcxNjQ0NDkyOSwiaWF0IjoxNzE2NDQxMzI5LCJqdGkiOiJjZmJiYjhiNy05YWZkLTQxODUtOWM5Zi1iOGZhZjg1MWNkMTgiLCJ1c2VybmFtZSI6InZpY28wNjA0MDBAZ21haWwuY29tIn0.MNEwtRpXMT6dD3Z6Mv3LIEkzSPfyA_7Ce5Y6KTg4uMwPg50HU05sXon4kezbBmcZ20iyShLJLeymeENTjKEQoHriifisuohvzBfWoBlIznas-gzIGo63v8j2SMNIUgj1FX2IX0zbG7PTqR4ZMF_KtOqtFuNYEeh30gVSW9JXgZsNu7u7Wdx3Px3JqeO2IjVM9B7ez1OHI0Shlqpgj3BDL-LiOl3liYCcNqwjrfOWFRPoqwdCDvMX49slASG3hXGg_eNCsRBblj_DcRDMzQyrQSJCs9cNxX_1CxPmv92e6Agt4Zr6m4ZFMS1NzkCffUHcn4q-31yUXJbUabcbdQziAg
+
+
+###Authorization: Bearer eyJraWQiOiJ1aHV0bGR1dGtvNVgxVzcyY1BIZHRHVDkwSWxmWkFWc29JeGxnd0pCK3IwPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIzNDA4YjQwOC04MGIxLTcwY2ItZDRlNS0xMWRiZGMyZWQ0MGYiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV81ZU5xWnhmMngiLCJjbGllbnRfaWQiOiI0dTE2dW9vdWNyZTU0bGw0aGNyb3EzZzJqaiIsIm9yaWdpbl9qdGkiOiI1ZDk4NjMzNS0xNWZhLTQ5ZjQtOTNlOS1lOWJlNWRiNDIyZDEiLCJldmVudF9pZCI6IjY5ZWFmOTQ2LWJiMzQtNDY3ZS1hY2U5LWNmZmY4Njg2YjNlMyIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE3MTY0NDA3OTUsImV4cCI6MTcxNjQ0NDM5NSwiaWF0IjoxNzE2NDQwNzk1LCJqdGkiOiJjZDU3MTY3My0zZTE4LTQ5NzgtYTY5NS02N2I4NDk1MmFlN2EiLCJ1c2VybmFtZSI6InZpbGxhemFudGUuYmVybmFiZS52aWN0b3JAZ21haWwuY29tIn0.dRAXKEffnciW50g4C18C_c5j_n0fSIHcU1YY5m2u0UFzK4YjbARbilROY9Ey2iSWJbumLyxII0rRNGlUoa87i2KV2jzNCZN_iFU4EpfEa6wYk_Xy5APLTmYUWzgedvqIck2hDeD0JEJr_x6x9GSEFwYB4OCAJiyZeXXYhn7ezRECy6mBxXzo0GVRXV3bp8n0v69w0K1K-4pdJ7sD2wkLXot2ifAaSHvbrb8VC44_gbNPfQsk65TNFBOGJwRsfcQOrrXgUSbPbLIEF_Bdwme4n-RbXgrX6KUQB1U1KxtgwYoohahIEVRswGVbrRofIV-AzDYurzdX-j8EOcwZzZNhsQ
+
+GET http://localhost:8081/auth/user-details
+Content-Type: application/json
+Authorization: Bearer eyJraWQiOiJ1aHV0bGR1dGtvNVgxVzcyY1BIZHRHVDkwSWxmWkFWc29JeGxnd0pCK3IwPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIzNDA4YjQwOC04MGIxLTcwY2ItZDRlNS0xMWRiZGMyZWQ0MGYiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV81ZU5xWnhmMngiLCJjbGllbnRfaWQiOiI0dTE2dW9vdWNyZTU0bGw0aGNyb3EzZzJqaiIsIm9yaWdpbl9qdGkiOiI1ZDk4NjMzNS0xNWZhLTQ5ZjQtOTNlOS1lOWJlNWRiNDIyZDEiLCJldmVudF9pZCI6IjY5ZWFmOTQ2LWJiMzQtNDY3ZS1hY2U5LWNmZmY4Njg2YjNlMyIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE3MTY0NDA3OTUsImV4cCI6MTcxNjQ0NDM5NSwiaWF0IjoxNzE2NDQwNzk1LCJqdGkiOiJjZDU3MTY3My0zZTE4LTQ5NzgtYTY5NS02N2I4NDk1MmFlN2EiLCJ1c2VybmFtZSI6InZpbGxhemFudGUuYmVybmFiZS52aWN0b3JAZ21haWwuY29tIn0.dRAXKEffnciW50g4C18C_c5j_n0fSIHcU1YY5m2u0UFzK4YjbARbilROY9Ey2iSWJbumLyxII0rRNGlUoa87i2KV2jzNCZN_iFU4EpfEa6wYk_Xy5APLTmYUWzgedvqIck2hDeD0JEJr_x6x9GSEFwYB4OCAJiyZeXXYhn7ezRECy6mBxXzo0GVRXV3bp8n0v69w0K1K-4pdJ7sD2wkLXot2ifAaSHvbrb8VC44_gbNPfQsk65TNFBOGJwRsfcQOrrXgUSbPbLIEF_Bdwme4n-RbXgrX6KUQB1U1KxtgwYoohahIEVRswGVbrRofIV-AzDYurzdX-j8EOcwZzZNhsQ
+
+#consultas-medicas-lb
+#consultas-medicas-sg
+#consultas-medicas-tg
