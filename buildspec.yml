@@ -3,6 +3,7 @@ phases:
   pre_build:
     commands:
       - echo ${DOCKERHUB_TOKEN} | docker login -u ${DOCKERHUB_USER} --password-stdin
+      - mvn clean package
   build:
     commands:
       - docker build -t microservicio-historias-clinicas .
