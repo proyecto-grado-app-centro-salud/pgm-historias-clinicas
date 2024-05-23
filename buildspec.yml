@@ -7,7 +7,7 @@ phases:
     commands:
       # Docker Hub login
       - echo ${DOCKERHUB_TOKEN} | docker login -u ${DOCKERHUB_USER} --password-stdin 
-      
+      - mvn clean package -Dmaven.test.skip=true
       # ECR login
       - ECR_MAIN_URI="730335279827.dkr.ecr.us-east-1.amazonaws.com"
       - aws ecr get-login-password --region us-east-1 | docker login -u AWS --password-stdin ${ECR_MAIN_URI}
