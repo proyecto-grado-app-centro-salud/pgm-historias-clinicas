@@ -1,13 +1,24 @@
 version: 0.2
+env:
+  variables:
+    ECR_REPO_NAME: microservicio-historias-clinicas-repository
+  parameter-store:
+    DOCKERHUB_TOKEN: /dockerhub/token
+    DOCKERHUB_USER: /dockerhub/user
 phases:
   pre_build:
     commands:
-      - echo ${DOCKERHUB_TOKEN} | docker login -u ${DOCKERHUB_USER} --password-stdin
-      - mvn clean package -Dmaven.test.skip=true
+      # Docker Hub login
+      - echo ${DOCKERHUB_TOKEN} | docker login -u ${DOCKERHUB_USER} --password-stdin 
+      
+      # ECR login
+      - aws ecr get-login-password --region us-east-1 | docker login -u AWS --password-stdin 730335279827.dkr.ecr.us-east-1.amazonaws.com
+
+      - ECR_IMAGE_URI="730335279827.dkr.ecr.us-east-1.amazonaws.com/${ECR_REPO_NAME}:latest"
   build:
     commands:
-      - docker build -t microservicio-historias-clinicas .
+      - docker build -t my-angular-app:latest .
   post_build:
     commands:
-      - docker tag microservicio-historias-clinicas ${DOCKERHUB_USER}/microservicio-historias-clinicas:latest
-      - docker push ${DOCKERHUB_USER}/microservicio-historias-clinicas:latest
+      - docker tag my-angular-app:latest ${ECR_IMAGE_URI}
+      - docker push ${ECR_IMAGE_URI}
