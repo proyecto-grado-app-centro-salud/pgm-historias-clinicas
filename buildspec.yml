@@ -20,3 +20,8 @@ phases:
     commands:
       - docker tag microservicio-historias-clinicas:latest ${ECR_IMAGE_URI}
       - docker push ${ECR_IMAGE_URI}
+      - printf '[{"name":"microservicio-historias-clinicas","imageUri":"%s"}]' ${ECR_IMAGE_URI} > imagedefinitions.json
+      
+artifacts:
+  files:
+    - imagedefinitions.json
