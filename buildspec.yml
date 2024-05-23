@@ -1,0 +1,12 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo ${DOCKERHUB_TOKEN} | docker login -u ${DOCKERHUB_USER} --password-stdin
+  build:
+    commands:
+      - docker build -t microservicio-historias-clinicas .
+  post_build:
+    commands:
+      - docker tag microservicio-historias-clinicas ${DOCKERHUB_USER}/microservicio-historias-clinicas:latest
+      - docker push ${DOCKERHUB_USER}/microservicio-historias-clinicas:latest
