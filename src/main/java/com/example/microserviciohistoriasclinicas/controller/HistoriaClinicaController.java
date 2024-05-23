@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.microserviciohistoriasclinicas.model.HistoriaClinicaEntity;
 import com.example.microserviciohistoriasclinicas.repository.HistoriaClinicaRepositoryJPA;
+import com.example.microserviciohistoriasclinicas.service.ContainerMetadataService;
 @Controller
 @RequestMapping(path = "/historias-clinicas")
 public class HistoriaClinicaController {
     @Autowired
     HistoriaClinicaRepositoryJPA historiaClinicaRepositoryJPA;
 
+    @Autowired
+	private ContainerMetadataService containerMetadataService;
     @PostMapping()
     public @ResponseBody String registrarReserva(@RequestBody HistoriaClinicaEntity nuevo){
         historiaClinicaRepositoryJPA.save(nuevo);
@@ -27,5 +30,9 @@ public class HistoriaClinicaController {
     @GetMapping("/{idPaciente}")
     public @ResponseBody List<HistoriaClinicaEntity> controllerMethod(@PathVariable int idPaciente) {
         return historiaClinicaRepositoryJPA.findByIdPaciente(idPaciente);
+    }
+    @GetMapping("/info-container")
+    public @ResponseBody String obtenerInformacionContenedor() {
+        return "microservicio historias clinicas:" + containerMetadataService.retrieveContainerMetadataInfo();
     }
 }
