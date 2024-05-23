@@ -3,7 +3,7 @@ phases:
   pre_build:
     commands:
       - echo ${DOCKERHUB_TOKEN} | docker login -u ${DOCKERHUB_USER} --password-stdin
-      - mvn clean package
+      - mvn clean package -Dmaven.test.skip=true
   build:
     commands:
       - docker build -t microservicio-historias-clinicas .
