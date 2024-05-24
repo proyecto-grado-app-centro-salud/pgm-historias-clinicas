@@ -55,8 +55,9 @@ Content-Type: application/json
     "tratamiento":"tratamiento1"
 }
 ###
-GET http://localhost:8082/historias-clinicas/2
-
+GET http://localhost:8082/historias-clinicas/paciente/2
+###
+GET http://localhost:8082/historias-clinicas/1000
 ###
 GET http://localhost:8082/historias-clinicas
 
