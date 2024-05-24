@@ -20,7 +20,7 @@ GET http://localhost:8084/manage/health
 
 
 ###
-POST http://localhost:8082/historias-clinicas
+POST http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas
 Content-Type: application/json
 
 {
@@ -38,7 +38,7 @@ Content-Type: application/json
     "idPaciente":2
 }
 ###
-PUT http://localhost:8082/historias-clinicas/1
+PUT http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/1
 Content-Type: application/json
 
 {
@@ -56,17 +56,17 @@ Content-Type: application/json
     "tratamiento":"tratamiento1"
 }
 ###
-GET http://localhost:8082/historias-clinicas/paciente/2
+GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/paciente/2
 ###
-GET http://localhost:8082/historias-clinicas/1000
+GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/1
 ###
-GET http://localhost:8082/historias-clinicas
+GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas
 
 ###
-GET http://44.223.13.220:8082/historias-clinicas/info-container
+GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/info-container
 
 ###
-GET http://44.223.13.220:8082/manage/health
+GET http://localhost:8082/api/microservicio-historias-clinicas/manage/health
 
 
 

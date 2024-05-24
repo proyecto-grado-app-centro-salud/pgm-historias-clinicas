@@ -28,7 +28,7 @@ public class HistoriaClinicaController {
     @Autowired
 	private ContainerMetadataService containerMetadataService;
     @PostMapping()
-    public @ResponseBody String registrarReserva(@RequestBody HistoriaClinicaEntity nuevo){
+    public @ResponseBody String registrarHistoriaClinica(@RequestBody HistoriaClinicaEntity nuevo){
         historiaClinicaRepositoryJPA.save(nuevo);
         return "Ok";
     }
