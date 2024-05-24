@@ -46,6 +46,7 @@ Content-Type: application/json
     "antecedentesFamiliares":"",
     "antecedentesGinecoobstetricos":"",
     "antecedentesNoPatologicos":"",
+    "antecedentesPatologicos":"",
     "antecedentesPersonales":"",
     "diagnosticoPresuntivo":"",
     "diagnosticosDiferenciales":"",
