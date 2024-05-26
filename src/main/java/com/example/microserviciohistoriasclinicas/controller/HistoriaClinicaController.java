@@ -64,7 +64,7 @@ public class HistoriaClinicaController {
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Historia clínica con ID " + idHistoriaClinica + " no encontrada"));
     }
     @GetMapping("/nueva-ci")
-    public String obtenerNuevaCi(@PathVariable int idHistoriaClinica) {
+    public String obtenerNuevaCi() {
         return "OK nueva ci";
     }
     @GetMapping()
