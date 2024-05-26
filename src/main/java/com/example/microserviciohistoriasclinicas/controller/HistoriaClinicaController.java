@@ -63,9 +63,10 @@ public class HistoriaClinicaController {
         return historiaClinicaRepositoryJPA.findById(idHistoriaClinica)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Historia clínica con ID " + idHistoriaClinica + " no encontrada"));
     }
-    @GetMapping("/nueva-ci")
+
+    @GetMapping("/nueva-ci-tarde")
     public @ResponseBody String obtenerNuevaCi() {
-        return "OK nueva ci";
+        return "OK nueva ci tarde ";
     }
     @GetMapping()
     public @ResponseBody List<HistoriaClinicaEntity> obtenerTodasHistoriasClinicas() {
