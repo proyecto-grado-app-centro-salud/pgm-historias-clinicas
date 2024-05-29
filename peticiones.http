@@ -92,3 +92,47 @@ Authorization: Bearer eyJraWQiOiJ1aHV0bGR1dGtvNVgxVzcyY1BIZHRHVDkwSWxmWkFWc29JeG
 #consultas-medicas-lb
 #consultas-medicas-sg
 #consultas-medicas-tg
+
+# Notas evolucion--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+###
+GET http://localhost:8082/api/microservicio-historias-clinicas/manage/health
+
+
+###
+GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/1
+
+###
+GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas
+
+
+###
+GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/paciente/1
+
+###
+GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/info-container
+
+###
+POST http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas
+Content-Type: application/json
+
+{
+    "nombreGenericoMedicamentoPreescrito":"",
+    "viaCuidadoEspecialesAdministracion":"",
+    "concentracionDosificacion":"",
+    "frecuenciaAdministracion24hrs":"",
+    "idMedico":2,
+    "idHistoriaClinica":1
+}
+###
+PUT http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/1
+Content-Type: application/json
+
+{
+    "nombreGenericoMedicamentoPreescrito":"actualizado",
+    "viaCuidadoEspecialesAdministracion":"",
+    "concentracionDosificacion":"",
+    "frecuenciaAdministracion24hrs":"",
+    "idMedico":2,
+    "idHistoriaClinica":1
+}
