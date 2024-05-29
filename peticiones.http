@@ -100,20 +100,20 @@ GET http://localhost:8082/api/microservicio-historias-clinicas/manage/health
 
 
 ###
-GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/1
+GET http://localhost:8082/api/microservicio-historias-clinicas/notas-evolucion/1
 
 ###
-GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas
+GET http://localhost:8082/api/microservicio-historias-clinicas/notas-evolucion
 
 
 ###
-GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/paciente/1
+GET http://localhost:8082/api/microservicio-historias-clinicas/notas-evolucion/paciente/2
 
 ###
-GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/info-container
+GET http://localhost:8082/api/microservicio-historias-clinicas/notas-evolucion/info-container
 
 ###
-POST http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas
+POST http://localhost:8082/api/microservicio-historias-clinicas/notas-evolucion
 Content-Type: application/json
 
 {
@@ -125,12 +125,12 @@ Content-Type: application/json
     "idHistoriaClinica":1
 }
 ###
-PUT http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/1
+PUT http://localhost:8082/api/microservicio-historias-clinicas/notas-evolucion/1
 Content-Type: application/json
 
 {
     "nombreGenericoMedicamentoPreescrito":"actualizado",
-    "viaCuidadoEspecialesAdministracion":"",
+    "viaCuidadoEspecialesAdministracion":"via cuidado actualizado",
     "concentracionDosificacion":"",
     "frecuenciaAdministracion24hrs":"",
     "idMedico":2,
