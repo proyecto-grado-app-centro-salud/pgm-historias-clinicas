@@ -30,9 +30,9 @@ public class NotaEvolucionController {
     NotaEvolucionRepository notaEvolucionRepository;
 
     @PostMapping()
-    public @ResponseBody String registrarNotaEvolucion(@RequestBody NotaEvolucionEntity notaEvolucionEntity){
+    public @ResponseBody NotaEvolucionEntity registrarNotaEvolucion(@RequestBody NotaEvolucionEntity notaEvolucionEntity){
         notaEvolucionRepository.save(notaEvolucionEntity);
-        return "Ok";
+        return notaEvolucionEntity;
     }
     @PutMapping("/{id}")
     public @ResponseBody String actualizarNotaEvolucion(@PathVariable Integer id, @RequestBody NotaEvolucionEntity actualizada) {
@@ -67,7 +67,7 @@ public class NotaEvolucionController {
         // .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error en la peticion"));
     }
     @GetMapping()
-    public @ResponseBody List<NotaEvolucionDto> obtenerTodasRecetas() {
+    public @ResponseBody List<NotaEvolucionDto> obtenerNotasEvolucion() {
         List<Object[]>  infoNotasEvolucion=notaEvolucionRepository.obtenerNotasEvolucion();
         return infoNotasEvolucion.stream().map((Object[] elemento) -> {
             Integer idNotaEvolucion=(Integer)elemento[0];
@@ -84,7 +84,7 @@ public class NotaEvolucionController {
         // return recetasRepository.obtenerRecetas();
     }
     @GetMapping("/paciente/{idPaciente}")
-    public @ResponseBody List<NotaEvolucionDto> obtenerRecetasPaciente(@PathVariable int idPaciente) {
+    public @ResponseBody List<NotaEvolucionDto> obtenerNotasEvolucionPaciente(@PathVariable int idPaciente) {
         List<Object[]>  infoNotasEvolucion=notaEvolucionRepository.obtenerNotasEvolucionPaciente(idPaciente);
         return infoNotasEvolucion.stream().map((Object[] elemento) -> {
             Integer idNotaEvolucion=(Integer)elemento[0];
