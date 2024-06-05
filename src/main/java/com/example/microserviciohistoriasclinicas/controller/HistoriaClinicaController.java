@@ -28,12 +28,12 @@ public class HistoriaClinicaController {
     @Autowired
 	private ContainerMetadataService containerMetadataService;
     @PostMapping()
-    public @ResponseBody String registrarHistoriaClinica(@RequestBody HistoriaClinicaEntity nuevo){
+    public @ResponseBody HistoriaClinicaEntity registrarHistoriaClinica(@RequestBody HistoriaClinicaEntity nuevo){
         historiaClinicaRepositoryJPA.save(nuevo);
-        return "Ok";
+        return nuevo;
     }
     @PutMapping("/{id}")
-    public @ResponseBody String actualizarHistoriaClinica(@PathVariable Integer id, @RequestBody HistoriaClinicaEntity actualizada) {
+    public @ResponseBody HistoriaClinicaEntity actualizarHistoriaClinica(@PathVariable Integer id, @RequestBody HistoriaClinicaEntity actualizada) {
         return historiaClinicaRepositoryJPA.findById(id)
                 .map(historiaClinica -> {
                     historiaClinica.setAmnesis(actualizada.getAmnesis());
@@ -47,11 +47,12 @@ public class HistoriaClinicaController {
                     historiaClinica.setExamenFisicoEspecial(actualizada.getExamenFisicoEspecial());
                     historiaClinica.setPropuestaBasicaDeConducta(actualizada.getPropuestaBasicaDeConducta());
                     historiaClinica.setTratamiento(actualizada.getTratamiento());
+                    historiaClinica.setIdPaciente(actualizada.getIdPaciente());
                     historiaClinicaRepositoryJPA.save(historiaClinica);
-                    return "Historia clínica actualizada con éxito";
+                    return actualizada;
                 })
                 .orElseGet(() -> {
-                    return "Historia clínica con ID " + id + " no encontrada";
+                    return actualizada;
                 });
     }
     @GetMapping("/paciente/{idPaciente}")

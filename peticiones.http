@@ -23,7 +23,7 @@ Content-Type: application/json
     "idPaciente":2
 }
 ###
-PUT http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/1
+PUT http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/8
 Content-Type: application/json
 
 {
@@ -38,7 +38,8 @@ Content-Type: application/json
     "examenFisico":"",
     "examenFisicoEspecial":"",
     "propuestaBasicaDeConducta":"",
-    "tratamiento":"tratamiento1"
+    "tratamiento":"tratamiento1",
+    "idPaciente":1
 }
 ###
 GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/paciente/2
@@ -117,22 +118,16 @@ POST http://localhost:8082/api/microservicio-historias-clinicas/notas-evolucion
 Content-Type: application/json
 
 {
-    "nombreGenericoMedicamentoPreescrito":"",
-    "viaCuidadoEspecialesAdministracion":"",
-    "concentracionDosificacion":"",
-    "frecuenciaAdministracion24hrs":"",
+    "cambiosPacienteResultadosTratamiento":"nota evolucion 05062024",
     "idMedico":2,
     "idHistoriaClinica":1
 }
 ###
-PUT http://localhost:8082/api/microservicio-historias-clinicas/notas-evolucion/1
+PUT http://localhost:8082/api/microservicio-historias-clinicas/notas-evolucion/12
 Content-Type: application/json
 
 {
-    "nombreGenericoMedicamentoPreescrito":"actualizado",
-    "viaCuidadoEspecialesAdministracion":"via cuidado actualizado",
-    "concentracionDosificacion":"",
-    "frecuenciaAdministracion24hrs":"",
-    "idMedico":2,
-    "idHistoriaClinica":1
+    "cambiosPacienteResultadosTratamiento":"nota evolucion 05062024 actualizado",
+    "idMedico":1,
+    "idHistoriaClinica":3
 }

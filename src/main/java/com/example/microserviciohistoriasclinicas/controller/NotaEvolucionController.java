@@ -35,17 +35,18 @@ public class NotaEvolucionController {
         return notaEvolucionEntity;
     }
     @PutMapping("/{id}")
-    public @ResponseBody String actualizarNotaEvolucion(@PathVariable Integer id, @RequestBody NotaEvolucionEntity actualizada) {
+    public @ResponseBody NotaEvolucionEntity actualizarNotaEvolucion(@PathVariable Integer id, @RequestBody NotaEvolucionEntity actualizada) {
         return notaEvolucionRepository.findById(id)
                 .map(notaEvolucion -> {
                     notaEvolucion.setCambiosPacienteResultadosTratamiento(actualizada.getCambiosPacienteResultadosTratamiento());
                     notaEvolucion.setUpdatedAt(new Date());
                     notaEvolucion.setIdMedico(actualizada.getIdMedico());
+                    notaEvolucion.setIdHistoriaClinica(actualizada.getIdHistoriaClinica());
                     notaEvolucionRepository.save(notaEvolucion);
-                    return "Nota evolucion actualizada con éxito";
+                    return actualizada;
                 })
                 .orElseGet(() -> {
-                    return "Error en la actualizacion";
+                    return actualizada;
                 });
     }
 
