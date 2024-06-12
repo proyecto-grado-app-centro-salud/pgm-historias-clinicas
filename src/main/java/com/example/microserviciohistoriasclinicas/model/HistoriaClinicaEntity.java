@@ -50,6 +50,10 @@ public class HistoriaClinicaEntity {
     private String tratamiento;
     @Column(name = "id_paciente") 
     private int idPaciente;
+    @Column(name = "id_medico") 
+    private int idMedico;
+    @Column(name = "id_especialidad") 
+    private int idEspecialidad;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)

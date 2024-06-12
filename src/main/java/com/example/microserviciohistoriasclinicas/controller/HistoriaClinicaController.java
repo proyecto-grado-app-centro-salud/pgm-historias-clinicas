@@ -48,6 +48,8 @@ public class HistoriaClinicaController {
                     historiaClinica.setPropuestaBasicaDeConducta(actualizada.getPropuestaBasicaDeConducta());
                     historiaClinica.setTratamiento(actualizada.getTratamiento());
                     historiaClinica.setIdPaciente(actualizada.getIdPaciente());
+                    historiaClinica.setIdEspecialidad(actualizada.getIdEspecialidad());
+                    historiaClinica.setIdMedico(actualizada.getIdMedico());
                     historiaClinicaRepositoryJPA.save(historiaClinica);
                     return actualizada;
                 })
