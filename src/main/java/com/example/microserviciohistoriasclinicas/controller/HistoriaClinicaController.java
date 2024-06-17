@@ -67,9 +67,14 @@ public class HistoriaClinicaController {
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Historia clínica con ID " + idHistoriaClinica + " no encontrada"));
     }
 
-    @GetMapping("/nueva-ci-tarde")
+    // @GetMapping("/nueva-ci-tarde")
+    // public @ResponseBody String obtenerNuevaCi() {
+    //     return "OK nueva ci tarde ";
+    // }
+
+    @GetMapping("/nueva-ci-noche")
     public @ResponseBody String obtenerNuevaCi() {
-        return "OK nueva ci tarde ";
+        return "OK nueva ci noche ";
     }
     @GetMapping()
     public @ResponseBody List<HistoriaClinicaEntity> obtenerTodasHistoriasClinicas() {
