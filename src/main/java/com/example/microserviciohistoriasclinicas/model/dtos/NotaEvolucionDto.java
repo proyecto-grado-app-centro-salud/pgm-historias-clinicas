@@ -2,6 +2,8 @@ package com.example.microserviciohistoriasclinicas.model.dtos;
 
 import java.util.Date;
 
+import com.example.microserviciohistoriasclinicas.model.NotaEvolucionEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,4 +23,15 @@ public class NotaEvolucionDto {
     String pacientePropietario;
     String ciPropietario;
     
+    public NotaEvolucionDto convertirNotaEvolucionEntityANotaEvolucionDto(NotaEvolucionEntity notaEvolucionEntity) {
+        NotaEvolucionDto notaEvolucionDto = new NotaEvolucionDto();
+        notaEvolucionDto.setIdNotaEvolucion(notaEvolucionEntity.getIdNotaEvolucion());
+        notaEvolucionDto.setIdHistoriaClinica(notaEvolucionEntity.getIdHistoriaClinica());
+        notaEvolucionDto.setCambiosPacienteResultadosTratamiento(notaEvolucionEntity.getCambiosPacienteResultadosTratamiento());
+        notaEvolucionDto.setIdMedico(notaEvolucionEntity.getIdMedico());
+        notaEvolucionDto.setCreatedAt(notaEvolucionEntity.getCreatedAt());
+        notaEvolucionDto.setUpdatedAt(notaEvolucionEntity.getUpdatedAt());
+        notaEvolucionDto.setDeletedAt(notaEvolucionEntity.getDeletedAt());
+        return notaEvolucionDto;
+    }
 }
