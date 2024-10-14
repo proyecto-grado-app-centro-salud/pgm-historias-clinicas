@@ -33,12 +33,14 @@ public class HistoriaClinicaService {
         }
         return historiasClinicasDtos;
     }
-    public HistoriaClinicaDto actualizarHistoriaClinica(HistoriaClinicaDto historiaClinicaDto) {
-        UsuarioEntity usuarioEntity = usuariosRepositoryJPA.findById(historiaClinicaDto.getIdPaciente())
-        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    public HistoriaClinicaDto actualizarHistoriaClinica(Integer idHistoriaClinica, HistoriaClinicaDto historiaClinicaDto) {
+        UsuarioEntity pacienteEntity = usuariosRepositoryJPA.findById(historiaClinicaDto.getIdPaciente())
+        .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
+        UsuarioEntity medicoEntity = usuariosRepositoryJPA.findById(historiaClinicaDto.getIdMedico())
+        .orElseThrow(() -> new RuntimeException("Medico no encontrado"));
         EspecialidadesEntity especialidadesEntity = especialidadesRepositoryJPA.findById(historiaClinicaDto.getIdEspecialidad())
         .orElseThrow(() -> new RuntimeException("Especialidad no encontrada"));
-        HistoriaClinicaEntity historiaClinicaEntity = historiaClinicaRepositoryJPA.findById(historiaClinicaDto.getIdHistoriaClinica())
+        HistoriaClinicaEntity historiaClinicaEntity = historiaClinicaRepositoryJPA.findById(idHistoriaClinica)
         .orElseThrow(() -> new RuntimeException("Historia clinica no encontrada"));
         historiaClinicaEntity.setAmnesis(historiaClinicaDto.getAmnesis());
         historiaClinicaEntity.setAntecedentesFamiliares(historiaClinicaDto.getAntecedentesFamiliares());
@@ -52,8 +54,8 @@ public class HistoriaClinicaService {
         historiaClinicaEntity.setExamenFisicoEspecial(historiaClinicaDto.getExamenFisicoEspecial());
         historiaClinicaEntity.setPropuestaBasicaDeConducta(historiaClinicaDto.getPropuestaBasicaDeConducta());
         historiaClinicaEntity.setTratamiento(historiaClinicaDto.getTratamiento());
-        historiaClinicaEntity.setPaciente(usuarioEntity);
-        historiaClinicaEntity.setMedico(usuarioEntity);
+        historiaClinicaEntity.setPaciente(pacienteEntity);
+        historiaClinicaEntity.setMedico(medicoEntity);
         historiaClinicaEntity.setEspecialidad(especialidadesEntity);
         historiaClinicaRepositoryJPA.save(historiaClinicaEntity);
         return new HistoriaClinicaDto().convertirHistoriaClinicaEntityAHistoriaClinicaDto(historiaClinicaEntity);

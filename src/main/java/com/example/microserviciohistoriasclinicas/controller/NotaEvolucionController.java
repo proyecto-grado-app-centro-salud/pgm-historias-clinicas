@@ -4,7 +4,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +23,7 @@ import com.example.microserviciohistoriasclinicas.model.NotaEvolucionEntity;
 import com.example.microserviciohistoriasclinicas.model.dtos.NotaEvolucionDto;
 import com.example.microserviciohistoriasclinicas.repository.NotaEvolucionRepository;
 import com.example.microserviciohistoriasclinicas.service.ContainerMetadataService;
+import com.example.microserviciohistoriasclinicas.service.NotasEvolucionService;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -27,79 +32,58 @@ public class NotaEvolucionController {
     @Autowired
 	private ContainerMetadataService containerMetadataService;
     @Autowired
-    NotaEvolucionRepository notaEvolucionRepository;
+    NotasEvolucionService notasEvolucionService;
 
-    @PostMapping()
-    public @ResponseBody NotaEvolucionEntity registrarNotaEvolucion(@RequestBody NotaEvolucionEntity notaEvolucionEntity){
-        notaEvolucionRepository.save(notaEvolucionEntity);
-        return notaEvolucionEntity;
+    @PostMapping
+    public ResponseEntity<NotaEvolucionDto> registrarNotaEvolucion(@RequestBody NotaEvolucionDto notaEvolucionDto) {
+        try {
+            NotaEvolucionDto nuevaNota = notasEvolucionService.registrarNotaEvolucion(notaEvolucionDto);
+            return new ResponseEntity<>(nuevaNota, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
+    @GetMapping
+    public ResponseEntity<List<NotaEvolucionDto>> obtenerTodasNotasEvolucion() {
+        try {
+            List<NotaEvolucionDto> notas = notasEvolucionService.obtenerTodasNotasEvolucion();
+            return new ResponseEntity<>(notas, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<NotaEvolucionDto> obtenerNotaEvolucionPorId(@PathVariable Integer id) {
+        try {
+            NotaEvolucionDto nota = notasEvolucionService.obtenerNotaEvolucionPorId(id);
+            return new ResponseEntity<>(nota, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PutMapping("/{id}")
-    public @ResponseBody NotaEvolucionEntity actualizarNotaEvolucion(@PathVariable Integer id, @RequestBody NotaEvolucionEntity actualizada) {
-        return notaEvolucionRepository.findById(id)
-                .map(notaEvolucion -> {
-                    notaEvolucion.setCambiosPacienteResultadosTratamiento(actualizada.getCambiosPacienteResultadosTratamiento());
-                    notaEvolucion.setUpdatedAt(new Date());
-                    notaEvolucion.setIdMedico(actualizada.getIdMedico());
-                    notaEvolucion.setIdHistoriaClinica(actualizada.getIdHistoriaClinica());
-                    notaEvolucionRepository.save(notaEvolucion);
-                    return actualizada;
-                })
-                .orElseGet(() -> {
-                    return actualizada;
-                });
-    }
-
-
-    @GetMapping("/{idNotaEvolucionSolicitada}")
-    public @ResponseBody NotaEvolucionDto obtenerDetalleNotaEvolucion(@PathVariable int idNotaEvolucionSolicitada) {
-        Object[] elemento=notaEvolucionRepository.obtenerNotaEvolucionPorId(idNotaEvolucionSolicitada).get(0);
-        Integer idNotaEvolucion=(Integer)elemento[0];
-        Integer idHistoriaClinica=(Integer)elemento[1];
-        String cambiosPacienteResultadosTratamiento=(String)elemento[2];
-        Integer idMedico=(Integer)elemento[3];
-        Date createdAt=(Date)elemento[4];
-        Date updatedAt=(Date)elemento[5];
-        Date deletedAt=(Date)elemento[6];
-        String pacientePropietario=(String)elemento[7];
-        String ciPropietario=(String)elemento[8];
-        return new NotaEvolucionDto(idNotaEvolucion,idHistoriaClinica,cambiosPacienteResultadosTratamiento,idMedico,createdAt,updatedAt,deletedAt,pacientePropietario,ciPropietario);
-        // return recetasRepository.findById(idReceta)
-        // .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error en la peticion"));
-    }
-    @GetMapping()
-    public @ResponseBody List<NotaEvolucionDto> obtenerNotasEvolucion() {
-        List<Object[]>  infoNotasEvolucion=notaEvolucionRepository.obtenerNotasEvolucion();
-        return infoNotasEvolucion.stream().map((Object[] elemento) -> {
-            Integer idNotaEvolucion=(Integer)elemento[0];
-            Integer idHistoriaClinica=(Integer)elemento[1];
-            String cambiosPacienteResultadosTratamiento=(String)elemento[2];
-            Integer idMedico=(Integer)elemento[3];
-            Date createdAt=(Date)elemento[4];
-            Date updatedAt=(Date)elemento[5];
-            Date deletedAt=(Date)elemento[6];
-            String pacientePropietario=(String)elemento[7];
-            String ciPropietario=(String)elemento[8];
-            return new NotaEvolucionDto(idNotaEvolucion,idHistoriaClinica,cambiosPacienteResultadosTratamiento,idMedico,createdAt,updatedAt,deletedAt,pacientePropietario,ciPropietario);
-        }).collect(Collectors.toList());
-        // return recetasRepository.obtenerRecetas();
+    public ResponseEntity<NotaEvolucionDto> actualizarNotaEvolucion(@PathVariable Integer id, @RequestBody NotaEvolucionDto actualizada) {
+        try {
+            NotaEvolucionDto notaActualizada = notasEvolucionService.actualizarNotaEvolucion(id,actualizada);
+            return new ResponseEntity<>(notaActualizada, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @GetMapping("/paciente/{idPaciente}")
-    public @ResponseBody List<NotaEvolucionDto> obtenerNotasEvolucionPaciente(@PathVariable int idPaciente) {
-        List<Object[]>  infoNotasEvolucion=notaEvolucionRepository.obtenerNotasEvolucionPaciente(idPaciente);
-        return infoNotasEvolucion.stream().map((Object[] elemento) -> {
-            Integer idNotaEvolucion=(Integer)elemento[0];
-            Integer idHistoriaClinica=(Integer)elemento[1];
-            String cambiosPacienteResultadosTratamiento=(String)elemento[2];
-            Integer idMedico=(Integer)elemento[3];
-            Date createdAt=(Date)elemento[4];
-            Date updatedAt=(Date)elemento[5];
-            Date deletedAt=(Date)elemento[6];
-            String pacientePropietario=(String)elemento[7];
-            String ciPropietario=(String)elemento[8];
-            return new NotaEvolucionDto(idNotaEvolucion,idHistoriaClinica,cambiosPacienteResultadosTratamiento,idMedico,createdAt,updatedAt,deletedAt,pacientePropietario,ciPropietario);
-        }).collect(Collectors.toList());
-        //return recetasRepository.findByIdPaciente(idReceta);
-        
+    public ResponseEntity<List<NotaEvolucionDto>> obtenerNotasEvolucionPaciente(@PathVariable int idPaciente) {
+        try {
+            List<NotaEvolucionDto> notas = notasEvolucionService.obtenerTodasNotasEvolucionDePaciente(idPaciente);
+            return new ResponseEntity<>(notas, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/info-container")
+    public @ResponseBody String obtenerInformacionContenedor() {
+        return "microservicio historias clinicas:" + containerMetadataService.retrieveContainerMetadataInfo();
     }
 }

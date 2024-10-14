@@ -2,9 +2,16 @@ package com.example.microserviciohistoriasclinicas.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -20,17 +27,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "notas_evolucion")
 public class NotaEvolucionEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_nota_evolucion")
     private int idNotaEvolucion;
-    @Column(name = "id_historia_clinica")
-    private int idHistoriaClinica;
+
     @Column(name = "cambios_paciente_resultados_tratamiento")
     private String cambiosPacienteResultadosTratamiento;
-    @Column(name = "id_medico")
-    private int idMedico;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -43,6 +49,15 @@ public class NotaEvolucionEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "deleted_at")
     private Date deletedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_medico", nullable = false)
+    private UsuarioEntity medico;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_historia_clinica", nullable = false)
+    private HistoriaClinicaEntity historiaClinica;
+
 
     @PrePersist
     protected void onCreate() {

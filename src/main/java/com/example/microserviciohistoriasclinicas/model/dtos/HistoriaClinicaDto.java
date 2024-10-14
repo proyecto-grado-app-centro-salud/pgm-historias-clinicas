@@ -14,7 +14,7 @@ import com.example.microserviciohistoriasclinicas.model.HistoriaClinicaEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HistoriaClinicaDto {
-    private Integer idHistoriaClinica;
+    private Integer id;
     private String amnesis;
     private String antecedentesFamiliares;
     private String antecedentesGinecoobstetricos;
@@ -28,22 +28,17 @@ public class HistoriaClinicaDto {
     private String propuestaBasicaDeConducta;
     private String tratamiento;
     private Integer idPaciente;
-    private String nombresPaciente;
-    private String apellidoPaternoPaciente;
-    private String apellidoMaternoPaciente;
+    private String pacientePropietario;
     private Integer idMedico;
-    private String nombresMedico;
-    private String apellidoPaternoMedico;
-    private String apellidoMaternoMedico;
+    private String nombreMedico;
     private Integer idEspecialidad;
     private String nombreEspecialidad;
     private Date createdAt;
     private Date updatedAt;
     private Date deletedAt;
-
     public HistoriaClinicaDto convertirHistoriaClinicaEntityAHistoriaClinicaDto(HistoriaClinicaEntity historiaClinicaEntity) {
         HistoriaClinicaDto historiaClinicaDto = new HistoriaClinicaDto();
-        historiaClinicaDto.setIdHistoriaClinica(historiaClinicaEntity.getIdHistoriaClinica());
+        historiaClinicaDto.setId(historiaClinicaEntity.getIdHistoriaClinica());
         historiaClinicaDto.setAmnesis(historiaClinicaEntity.getAmnesis());
         historiaClinicaDto.setAntecedentesFamiliares(historiaClinicaEntity.getAntecedentesFamiliares());
         historiaClinicaDto.setAntecedentesGinecoobstetricos(historiaClinicaEntity.getAntecedentesGinecoobstetricos());
@@ -57,13 +52,9 @@ public class HistoriaClinicaDto {
         historiaClinicaDto.setPropuestaBasicaDeConducta(historiaClinicaEntity.getPropuestaBasicaDeConducta());
         historiaClinicaDto.setTratamiento(historiaClinicaEntity.getTratamiento());
         historiaClinicaDto.setIdPaciente(historiaClinicaEntity.getPaciente().getIdUsuario());
-        historiaClinicaDto.setNombresPaciente(historiaClinicaEntity.getPaciente().getNombres());
-        historiaClinicaDto.setApellidoPaternoPaciente(historiaClinicaEntity.getPaciente().getApellidoPaterno());
-        historiaClinicaDto.setApellidoMaternoPaciente(historiaClinicaEntity.getPaciente().getApellidoMaterno());
+        historiaClinicaDto.setPacientePropietario(historiaClinicaEntity.getPaciente().getNombres()+" "+historiaClinicaEntity.getPaciente().getApellidoPaterno()+" "+historiaClinicaEntity.getPaciente().getApellidoMaterno());
         historiaClinicaDto.setIdMedico(historiaClinicaEntity.getMedico().getIdUsuario());
-        historiaClinicaDto.setNombresMedico(historiaClinicaEntity.getMedico().getNombres());
-        historiaClinicaDto.setApellidoPaternoMedico(historiaClinicaEntity.getMedico().getApellidoPaterno());
-        historiaClinicaDto.setApellidoMaternoMedico(historiaClinicaEntity.getMedico().getApellidoMaterno());
+        historiaClinicaDto.setNombreMedico(historiaClinicaEntity.getMedico().getNombres()+" "+historiaClinicaEntity.getMedico().getApellidoPaterno()+" "+historiaClinicaEntity.getMedico().getApellidoMaterno());
         historiaClinicaDto.setIdEspecialidad(historiaClinicaEntity.getEspecialidad().getIdEspecialidad());
         historiaClinicaDto.setNombreEspecialidad(historiaClinicaEntity.getEspecialidad().getNombre());
         historiaClinicaDto.setCreatedAt(historiaClinicaEntity.getCreatedAt());
