@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,16 +14,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.microserviciohistoriasclinicas.model.HistoriaClinicaEntity;
-import com.example.microserviciohistoriasclinicas.model.UsuarioEntity;
 import com.example.microserviciohistoriasclinicas.model.dtos.HistoriaClinicaDto;
 import com.example.microserviciohistoriasclinicas.repository.HistoriaClinicaRepositoryJPA;
 import com.example.microserviciohistoriasclinicas.service.ContainerMetadataService;
 import com.example.microserviciohistoriasclinicas.service.HistoriaClinicaService;
-@Controller
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController
 @RequestMapping(path = "/historias-clinicas")
 public class HistoriaClinicaController {
     @Autowired
@@ -38,9 +35,13 @@ public class HistoriaClinicaController {
 
     Logger logger = LoggerFactory.getLogger(HistoriaClinicaController.class);
     @PostMapping()
-    public @ResponseBody HistoriaClinicaEntity registrarHistoriaClinica(@RequestBody HistoriaClinicaEntity nuevo){
-        historiaClinicaRepositoryJPA.save(nuevo);
-        return nuevo;
+    public ResponseEntity<HistoriaClinicaDto> registrarHistoriaClinica(@RequestBody HistoriaClinicaDto historiaClinicaDto) {
+        try {
+            HistoriaClinicaDto historiaClinicaCreada = historiaClinicaService.crearHistoriaClinica(historiaClinicaDto);
+            return new ResponseEntity<>(historiaClinicaCreada, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @PutMapping("/{id}")
     public ResponseEntity<HistoriaClinicaDto> actualizarHistoriaClinica(@PathVariable Integer id, @RequestBody HistoriaClinicaDto actualizada) {
@@ -60,11 +61,14 @@ public class HistoriaClinicaController {
         }
     }
     @GetMapping("/{idHistoriaClinica}")
-    public @ResponseBody HistoriaClinicaEntity obtenerDetalleHistoriaClinica(@PathVariable int idHistoriaClinica) {
-        return historiaClinicaRepositoryJPA.findById(idHistoriaClinica)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Historia clínica con ID " + idHistoriaClinica + " no encontrada"));
+    public ResponseEntity<HistoriaClinicaDto> obtenerDetalleHistoriaClinica(@PathVariable int idHistoriaClinica) {
+        try {
+            HistoriaClinicaDto historiaClinicaDto = historiaClinicaService.obtenerHistoriaClinicaPorId(idHistoriaClinica);
+            return new ResponseEntity<>(historiaClinicaDto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
-
     // @GetMapping("/nueva-ci-tarde")
     // public @ResponseBody String obtenerNuevaCi() {
     //     return "OK nueva ci tarde ";

@@ -29,6 +29,7 @@ public class HistoriaClinicaDto {
     private String tratamiento;
     private Integer idPaciente;
     private String pacientePropietario;
+    private String ciPropietario;
     private Integer idMedico;
     private String nombreMedico;
     private Integer idEspecialidad;
@@ -53,6 +54,7 @@ public class HistoriaClinicaDto {
         historiaClinicaDto.setTratamiento(historiaClinicaEntity.getTratamiento());
         historiaClinicaDto.setIdPaciente(historiaClinicaEntity.getPaciente().getIdUsuario());
         historiaClinicaDto.setPacientePropietario(historiaClinicaEntity.getPaciente().getNombres()+" "+historiaClinicaEntity.getPaciente().getApellidoPaterno()+" "+historiaClinicaEntity.getPaciente().getApellidoMaterno());
+        historiaClinicaDto.setCiPropietario(historiaClinicaEntity.getPaciente().getCi());
         historiaClinicaDto.setIdMedico(historiaClinicaEntity.getMedico().getIdUsuario());
         historiaClinicaDto.setNombreMedico(historiaClinicaEntity.getMedico().getNombres()+" "+historiaClinicaEntity.getMedico().getApellidoPaterno()+" "+historiaClinicaEntity.getMedico().getApellidoMaterno());
         historiaClinicaDto.setIdEspecialidad(historiaClinicaEntity.getEspecialidad().getIdEspecialidad());
