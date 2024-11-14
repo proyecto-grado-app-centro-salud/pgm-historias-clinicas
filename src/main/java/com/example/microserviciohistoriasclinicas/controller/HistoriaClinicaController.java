@@ -35,9 +35,13 @@ public class HistoriaClinicaController {
 
     Logger logger = LoggerFactory.getLogger(HistoriaClinicaController.class);
     @PostMapping()
-    public @ResponseBody HistoriaClinicaEntity registrarHistoriaClinica(@RequestBody HistoriaClinicaEntity nuevo){
-        historiaClinicaRepositoryJPA.save(nuevo);
-        return nuevo;
+    public ResponseEntity<HistoriaClinicaDto> registrarHistoriaClinica(@RequestBody HistoriaClinicaDto historiaClinicaDto) {
+        try {
+            HistoriaClinicaDto historiaClinicaCreada = historiaClinicaService.crearHistoriaClinica(historiaClinicaDto);
+            return new ResponseEntity<>(historiaClinicaCreada, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @PutMapping("/{id}")
     public ResponseEntity<HistoriaClinicaDto> actualizarHistoriaClinica(@PathVariable Integer id, @RequestBody HistoriaClinicaDto actualizada) {
@@ -57,11 +61,14 @@ public class HistoriaClinicaController {
         }
     }
     @GetMapping("/{idHistoriaClinica}")
-    public @ResponseBody HistoriaClinicaEntity obtenerDetalleHistoriaClinica(@PathVariable int idHistoriaClinica) {
-        return historiaClinicaRepositoryJPA.findById(idHistoriaClinica)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Historia clínica con ID " + idHistoriaClinica + " no encontrada"));
+    public ResponseEntity<HistoriaClinicaDto> obtenerDetalleHistoriaClinica(@PathVariable int idHistoriaClinica) {
+        try {
+            HistoriaClinicaDto historiaClinicaDto = historiaClinicaService.obtenerHistoriaClinicaPorId(idHistoriaClinica);
+            return new ResponseEntity<>(historiaClinicaDto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
-
     // @GetMapping("/nueva-ci-tarde")
     // public @ResponseBody String obtenerNuevaCi() {
     //     return "OK nueva ci tarde ";
