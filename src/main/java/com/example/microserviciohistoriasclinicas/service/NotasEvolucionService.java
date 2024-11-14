@@ -10,6 +10,8 @@ import com.example.microserviciohistoriasclinicas.repository.HistoriaClinicaRepo
 import com.example.microserviciohistoriasclinicas.repository.NotaEvolucionRepository;
 import com.example.microserviciohistoriasclinicas.repository.UsuariosRepositoryJPA;
 
+import net.sf.jasperreports.engine.JRException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,9 @@ public class NotasEvolucionService {
 
     @Autowired
     EspecialidadesRepositoryJPA especialidadesRepositoryJPA;
+
+    @Autowired
+    PDFService pdfService;
 
     public NotaEvolucionDto registrarNotaEvolucion(NotaEvolucionDto notaEvolucionDto) {
         UsuarioEntity medicoEntity = usuariosRepositoryJPA.findById(notaEvolucionDto.getIdMedico())
@@ -62,6 +67,16 @@ public class NotasEvolucionService {
         NotaEvolucionEntity notaEvolucionEntity = notaEvolucionRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Nota de evolución no encontrada"));
         return new NotaEvolucionDto().convertirNotaEvolucionEntityANotaEvolucionDto(notaEvolucionEntity);
+    }
+    public byte[] obtenerPDFNotaEvolucion(Integer id) {
+        NotaEvolucionEntity notaEvolucionEntity = notaEvolucionRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Nota de evolución no encontrada"));
+        try {
+            return pdfService.generatePdfReportNotaEvolucion(notaEvolucionEntity);
+        } catch (JRException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al generar el PDF de la nota de evolución.", e);
+        }
     }
 
     public NotaEvolucionDto actualizarNotaEvolucion(Integer idNotaEvolucion, NotaEvolucionDto notaEvolucionDto) {

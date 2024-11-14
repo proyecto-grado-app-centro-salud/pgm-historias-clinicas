@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -63,6 +64,18 @@ public class NotaEvolucionController {
             return new ResponseEntity<>( HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/{id}/pdf")
+    public ResponseEntity<byte[]> obtenerNotaEvolucionPDFPorId(@PathVariable Integer id) {
+        try {
+            byte[] pdfBytes = notasEvolucionService.obtenerPDFNotaEvolucion(id);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Disposition", "inline; filename=NotaEvolucion.pdf");
+            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<NotaEvolucionDto> actualizarNotaEvolucion(@PathVariable Integer id, @RequestBody NotaEvolucionDto actualizada) {
