@@ -4,15 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.example.microserviciohistoriasclinicas.model.EspecialidadesEntity;
 import com.example.microserviciohistoriasclinicas.model.HistoriaClinicaEntity;
+import com.example.microserviciohistoriasclinicas.model.NotaEvolucionEntity;
 import com.example.microserviciohistoriasclinicas.model.UsuarioEntity;
 import com.example.microserviciohistoriasclinicas.model.dtos.HistoriaClinicaDto;
+import com.example.microserviciohistoriasclinicas.model.dtos.NotaEvolucionDto;
 import com.example.microserviciohistoriasclinicas.repository.EspecialidadesRepositoryJPA;
 import com.example.microserviciohistoriasclinicas.repository.HistoriaClinicaRepositoryJPA;
 import com.example.microserviciohistoriasclinicas.repository.UsuariosRepositoryJPA;
+import com.example.microserviciohistoriasclinicas.util.specifications.HistoriasClinicasSpecification;
+import com.example.microserviciohistoriasclinicas.util.specifications.NotasEvolucionSpecification;
+
+import net.sf.jasperreports.engine.JRException;
 
 @Service
 public class HistoriaClinicaService {
@@ -24,7 +34,13 @@ public class HistoriaClinicaService {
 
     @Autowired
     EspecialidadesRepositoryJPA especialidadesRepositoryJPA;
-    public List<HistoriaClinicaDto> obtenerHistoriasClinicas() {
+
+    @Autowired
+    PDFService pdfService;
+
+    @Autowired
+    private ConvertirTiposDatosService convertirTiposDatosService;
+    public List<HistoriaClinicaDto> obtenerHistoriasClinicas(String fechaInicio, String fechaFin, String ciPaciente, String nombrePaciente, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
         List<HistoriaClinicaEntity> historiasClinicasEntities = historiaClinicaRepositoryJPA.findAll();
         List<HistoriaClinicaDto> historiasClinicasDtos = new ArrayList<>();
         for (HistoriaClinicaEntity comunicadoEntity : historiasClinicasEntities) {
@@ -60,16 +76,21 @@ public class HistoriaClinicaService {
         historiaClinicaRepositoryJPA.save(historiaClinicaEntity);
         return new HistoriaClinicaDto().convertirHistoriaClinicaEntityAHistoriaClinicaDto(historiaClinicaEntity);
     }
-    public List<HistoriaClinicaDto> obtenerHistoriasClinicasDePaciente(int idPaciente) {
+    public List<HistoriaClinicaDto> obtenerHistoriasClinicasDePaciente(int idPaciente, String fechaInicio, String fechaFin, String ciPaciente, String nombrePaciente, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
         UsuarioEntity usuarioEntity = usuariosRepositoryJPA.findById(idPaciente)
         .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        List<HistoriaClinicaEntity> historiasClinicasEntities = historiaClinicaRepositoryJPA.findByPaciente(usuarioEntity);
-        List<HistoriaClinicaDto> historiasClinicasDtos = new ArrayList<>();
-        for (HistoriaClinicaEntity comunicadoEntity : historiasClinicasEntities) {
-            HistoriaClinicaDto historiaClinicaDto = new HistoriaClinicaDto().convertirHistoriaClinicaEntityAHistoriaClinicaDto(comunicadoEntity);
-            historiasClinicasDtos.add(historiaClinicaDto);
-        }
-        return historiasClinicasDtos;
+        List<HistoriaClinicaEntity> historiasEntities = new ArrayList<>();
+        Specification<HistoriaClinicaEntity> spec = Specification.where(HistoriasClinicasSpecification.obtenerHistoriasClinicasDePacientePorParametros(idPaciente,convertirTiposDatosService.convertirStringADate(fechaInicio),convertirTiposDatosService.convertirStringADate(fechaFin),nombreMedico,nombreEspecialidad,diagnosticoPresuntivo));
+        if(page!=null && size!=null){
+            Pageable pageable = PageRequest.of(page, size);
+            Page<HistoriaClinicaEntity> historiasEntitiesPage=historiaClinicaRepositoryJPA.findAll(spec,pageable);
+            historiasEntities=historiasEntitiesPage.getContent();
+        }else{
+            historiasEntities=historiaClinicaRepositoryJPA.findAll(spec);
+        }  
+        return historiasEntities.stream()
+                    .map(nota -> new HistoriaClinicaDto().convertirHistoriaClinicaEntityAHistoriaClinicaDto(nota))
+                    .toList();
     }
     public HistoriaClinicaDto crearHistoriaClinica(HistoriaClinicaDto historiaClinicaDto) {
         UsuarioEntity pacienteEntity = usuariosRepositoryJPA.findById(historiaClinicaDto.getIdPaciente())
@@ -101,5 +122,12 @@ public class HistoriaClinicaService {
         HistoriaClinicaEntity historiaEntity = historiaClinicaRepositoryJPA.findByIdHistoriaClinicaAndDeletedAtIsNull(idHistoriaClinica)
             .orElseThrow(() -> new RuntimeException("Historia clínica no encontrada"));
         return new HistoriaClinicaDto().convertirHistoriaClinicaEntityAHistoriaClinicaDto(historiaEntity);
+    }
+    public byte[] obtenerPDFHistoriaClinica(HistoriaClinicaDto historiaClinicaDto) {
+        try {
+            return pdfService.generatePdfReportHistoriaClinica(historiaClinicaDto);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al generar el PDF de la historia clinica.", e);
+        }
     }
 }
