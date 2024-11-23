@@ -95,9 +95,9 @@ public class NotaEvolucionController {
         }
     }
     @GetMapping("/paciente/{idPaciente}")
-    public ResponseEntity<List<NotaEvolucionDto>> obtenerNotasEvolucionPaciente(@PathVariable int idPaciente) {
+    public ResponseEntity<List<NotaEvolucionDto>> obtenerNotasEvolucionPaciente(@PathVariable int idPaciente,@RequestParam(required = false) String fechaInicio, @RequestParam(required = false) String fechaFin,@RequestParam(required = false) String nombreMedico,@RequestParam(required = false) String nombreEspecialidad,@RequestParam(required = false) String diagnosticoPresuntivo,@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size) {
         try {
-            List<NotaEvolucionDto> notas = notasEvolucionService.obtenerTodasNotasEvolucionDePaciente(idPaciente);
+            List<NotaEvolucionDto> notas = notasEvolucionService.obtenerTodasNotasEvolucionDePaciente(idPaciente,fechaInicio,fechaFin,nombreMedico,nombreEspecialidad,diagnosticoPresuntivo,page,size);
             return new ResponseEntity<>(notas, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

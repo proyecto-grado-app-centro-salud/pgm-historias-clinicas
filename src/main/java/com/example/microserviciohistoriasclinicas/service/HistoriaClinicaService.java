@@ -41,13 +41,18 @@ public class HistoriaClinicaService {
     @Autowired
     private ConvertirTiposDatosService convertirTiposDatosService;
     public List<HistoriaClinicaDto> obtenerHistoriasClinicas(String fechaInicio, String fechaFin, String ciPaciente, String nombrePaciente, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
-        List<HistoriaClinicaEntity> historiasClinicasEntities = historiaClinicaRepositoryJPA.findAll();
-        List<HistoriaClinicaDto> historiasClinicasDtos = new ArrayList<>();
-        for (HistoriaClinicaEntity comunicadoEntity : historiasClinicasEntities) {
-            HistoriaClinicaDto historiaClinicaDto = new HistoriaClinicaDto().convertirHistoriaClinicaEntityAHistoriaClinicaDto(comunicadoEntity);
-            historiasClinicasDtos.add(historiaClinicaDto);
-        }
-        return historiasClinicasDtos;
+        List<HistoriaClinicaEntity> historiasCEntities = new ArrayList<>();
+        Specification<HistoriaClinicaEntity> spec = Specification.where(HistoriasClinicasSpecification.obtenerHistoriasClinicasPorParametros(convertirTiposDatosService.convertirStringADate(fechaInicio),convertirTiposDatosService.convertirStringADate(fechaFin),ciPaciente,nombrePaciente,nombreMedico,nombreEspecialidad,diagnosticoPresuntivo));
+        if(page!=null && size!=null){
+            Pageable pageable = PageRequest.of(page, size);
+            Page<HistoriaClinicaEntity> historiasEntitiesPage=historiaClinicaRepositoryJPA.findAll(spec,pageable);
+            historiasCEntities=historiasEntitiesPage.getContent();
+        }else{
+            historiasCEntities=historiaClinicaRepositoryJPA.findAll(spec);
+        }  
+        return historiasCEntities.stream()
+                    .map(histo -> new HistoriaClinicaDto().convertirHistoriaClinicaEntityAHistoriaClinicaDto(histo))
+                    .toList();
     }
     public HistoriaClinicaDto actualizarHistoriaClinica(Integer idHistoriaClinica, HistoriaClinicaDto historiaClinicaDto) {
         UsuarioEntity pacienteEntity = usuariosRepositoryJPA.findById(historiaClinicaDto.getIdPaciente())
@@ -76,7 +81,7 @@ public class HistoriaClinicaService {
         historiaClinicaRepositoryJPA.save(historiaClinicaEntity);
         return new HistoriaClinicaDto().convertirHistoriaClinicaEntityAHistoriaClinicaDto(historiaClinicaEntity);
     }
-    public List<HistoriaClinicaDto> obtenerHistoriasClinicasDePaciente(int idPaciente, String fechaInicio, String fechaFin, String ciPaciente, String nombrePaciente, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
+    public List<HistoriaClinicaDto> obtenerHistoriasClinicasDePaciente(int idPaciente, String fechaInicio, String fechaFin, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
         UsuarioEntity usuarioEntity = usuariosRepositoryJPA.findById(idPaciente)
         .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         List<HistoriaClinicaEntity> historiasEntities = new ArrayList<>();

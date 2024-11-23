@@ -73,10 +73,17 @@ public class NotasEvolucionService {
                     .map(nota -> new NotaEvolucionDto().convertirNotaEvolucionEntityANotaEvolucionDto(nota))
                     .toList();
     }
-    public List<NotaEvolucionDto> obtenerTodasNotasEvolucionDePaciente(int idPaciente) {
-    
-        List<NotaEvolucionEntity> notas = notaEvolucionRepository.obtenerNotasEvolucionPaciente(idPaciente);
-        return notas.stream()
+    public List<NotaEvolucionDto> obtenerTodasNotasEvolucionDePaciente(int idPaciente,String fechaInicio, String fechaFin, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
+        List<NotaEvolucionEntity> notasEntities = new ArrayList<>();
+        Specification<NotaEvolucionEntity> spec = Specification.where(NotasEvolucionSpecification.obtenerNotasEvolucionDePacientePorParametros(idPaciente,convertirTiposDatosService.convertirStringADate(fechaInicio),convertirTiposDatosService.convertirStringADate(fechaFin),nombreMedico,nombreEspecialidad,diagnosticoPresuntivo));
+        if(page!=null && size!=null){
+            Pageable pageable = PageRequest.of(page, size);
+            Page<NotaEvolucionEntity> comunicadosEntitiesPage=notaEvolucionRepository.findAll(spec,pageable);
+            notasEntities=comunicadosEntitiesPage.getContent();
+        }else{
+            notasEntities=notaEvolucionRepository.findAll(spec);
+        }  
+        return notasEntities.stream()
                     .map(nota -> new NotaEvolucionDto().convertirNotaEvolucionEntityANotaEvolucionDto(nota))
                     .toList();
     }

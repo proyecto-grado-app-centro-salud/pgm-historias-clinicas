@@ -58,9 +58,9 @@ public class HistoriaClinicaController {
         }
     }
     @GetMapping("/paciente/{idPaciente}")
-    public ResponseEntity<List<HistoriaClinicaDto>> controllerMethod(@PathVariable int idPaciente,@RequestParam(required = false) String fechaInicio, @RequestParam(required = false) String fechaFin,@RequestParam(required = false) String ciPaciente,@RequestParam(required = false) String nombrePaciente,@RequestParam(required = false) String nombreMedico,@RequestParam(required = false) String nombreEspecialidad,@RequestParam(required = false) String diagnosticoPresuntivo,@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size) {
+    public ResponseEntity<List<HistoriaClinicaDto>> controllerMethod(@PathVariable int idPaciente,@RequestParam(required = false) String fechaInicio, @RequestParam(required = false) String fechaFin ,@RequestParam(required = false) String nombreMedico,@RequestParam(required = false) String nombreEspecialidad,@RequestParam(required = false) String diagnosticoPresuntivo,@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size) {
         try {
-            return new ResponseEntity<List<HistoriaClinicaDto>>(historiaClinicaService.obtenerHistoriasClinicasDePaciente(idPaciente,fechaInicio,fechaFin,ciPaciente,nombrePaciente,nombreMedico,nombreEspecialidad,diagnosticoPresuntivo,page,size),HttpStatus.OK);
+            return new ResponseEntity<List<HistoriaClinicaDto>>(historiaClinicaService.obtenerHistoriasClinicasDePaciente(idPaciente,fechaInicio,fechaFin,nombreMedico,nombreEspecialidad,diagnosticoPresuntivo,page,size),HttpStatus.OK);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
