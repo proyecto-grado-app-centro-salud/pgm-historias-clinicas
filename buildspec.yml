@@ -6,10 +6,10 @@ phases:
   pre_build:
     commands:
       # Docker Hub login
-      - echo ${DOCKERHUB_TOKEN} | docker login -u ${DOCKERHUB_USER} --password-stdin 
+      #- echo ${DOCKERHUB_TOKEN} | docker login -u ${DOCKERHUB_USER} --password-stdin 
       - mvn clean package -Dmaven.test.skip=true
       # ECR login
-      - ECR_MAIN_URI="730335279827.dkr.ecr.us-east-1.amazonaws.com"
+      - ECR_MAIN_URI="583863894994.dkr.ecr.us-east-1.amazonaws.com"
       - aws ecr get-login-password --region us-east-1 | docker login -u AWS --password-stdin ${ECR_MAIN_URI}
 
       - ECR_IMAGE_URI="${ECR_MAIN_URI}/${ECR_REPO_NAME}:latest"
