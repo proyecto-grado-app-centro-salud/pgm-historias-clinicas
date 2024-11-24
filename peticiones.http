@@ -48,7 +48,7 @@ Content-Type: application/json
 ###
 GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/paciente/2
 ###
-GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/1
+GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/5
 ###
 GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas
 
@@ -57,7 +57,27 @@ GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinica
 
 ###
 GET http://localhost:8082/api/microservicio-historias-clinicas/manage/health
+###
+GET http://localhost:8082/api/microservicio-historias-clinicas/historias-clinicas/pdf
+Content-Type: application/json
 
+{
+    "amnesis":"amnesis120624",
+    "antecedentesFamiliares":"antecedentesFamiliares",
+    "antecedentesGinecoobstetricos":"antecedentesGinecoobstetricos",
+    "antecedentesNoPatologicos":"antecedentesNoPatologicos",
+    "antecedentesPatologicos":"antecedentesPatologicos",
+    "antecedentesPersonales":"antecedentesPersonales",
+    "diagnosticoPresuntivo":"diagnosticoPresuntivo",
+    "diagnosticosDiferenciales":"diagnosticosDiferenciales",
+    "examenFisico":"examenFisico",
+    "examenFisicoEspecial":"examenFisicoEspecial",
+    "propuestaBasicaDeConducta":"propuestaBasicaDeConducta",
+    "tratamiento":"tratamiento1",
+    "idPaciente":8490543,
+    "idMedico":1,
+    "idEspecialidad":2
+}
 
 
 #consultas-medicas-lb
@@ -72,6 +92,9 @@ GET http://localhost:8082/api/microservicio-historias-clinicas/manage/health
 
 ###
 GET http://localhost:8082/api/microservicio-historias-clinicas/notas-evolucion/1
+
+###
+GET http://localhost:8082/api/microservicio-historias-clinicas/notas-evolucion/1/pdf
 
 ###
 GET http://localhost:8082/api/microservicio-historias-clinicas/notas-evolucion
@@ -99,5 +122,14 @@ Content-Type: application/json
 {
     "cambiosPacienteResultadosTratamiento":" 05062024 actualizado",
     "idMedico":2,
+    "idHistoriaClinica":1
+}
+###
+GET http://localhost:8082/api/microservicio-historias-clinicas/notas-evolucion/pdf?cambiosPacienteResultadosTratamiento=cambiosPacienteResultadosTratamiento&idMedico=1002007&idHistoriaClinica=1
+Content-Type: application/json
+
+{
+    "cambiosPacienteResultadosTratamiento":"nota evolucion 05062024",
+    "idMedico":8490543,
     "idHistoriaClinica":1
 }
