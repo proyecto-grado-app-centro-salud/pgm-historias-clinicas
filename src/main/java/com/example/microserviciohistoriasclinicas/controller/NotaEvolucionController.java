@@ -43,6 +43,7 @@ public class NotaEvolucionController {
             NotaEvolucionDto nuevaNota = notasEvolucionService.registrarNotaEvolucion(notaEvolucionDto);
             return new ResponseEntity<>(nuevaNota, HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -53,6 +54,7 @@ public class NotaEvolucionController {
             List<NotaEvolucionDto> notas = notasEvolucionService.obtenerTodasNotasEvolucion(fechaInicio,fechaFin,ciPaciente,nombrePaciente,nombreMedico,nombreEspecialidad,diagnosticoPresuntivo,page,size);
             return new ResponseEntity<>(notas, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -63,6 +65,7 @@ public class NotaEvolucionController {
             NotaEvolucionDto nota = notasEvolucionService.obtenerNotaEvolucionPorId(id);
             return new ResponseEntity<>(nota, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>( HttpStatus.NOT_FOUND);
         }
     }
@@ -91,6 +94,7 @@ public class NotaEvolucionController {
             NotaEvolucionDto notaActualizada = notasEvolucionService.actualizarNotaEvolucion(id,actualizada);
             return new ResponseEntity<>(notaActualizada, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -100,6 +104,7 @@ public class NotaEvolucionController {
             List<NotaEvolucionDto> notas = notasEvolucionService.obtenerTodasNotasEvolucionDePaciente(idPaciente,fechaInicio,fechaFin,nombreMedico,nombreEspecialidad,diagnosticoPresuntivo,page,size);
             return new ResponseEntity<>(notas, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

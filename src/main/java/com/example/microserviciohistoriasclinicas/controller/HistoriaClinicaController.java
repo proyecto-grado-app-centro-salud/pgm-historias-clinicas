@@ -45,6 +45,7 @@ public class HistoriaClinicaController {
             HistoriaClinicaDto historiaClinicaCreada = historiaClinicaService.crearHistoriaClinica(historiaClinicaDto);
             return new ResponseEntity<>(historiaClinicaCreada, HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -54,6 +55,7 @@ public class HistoriaClinicaController {
             HistoriaClinicaDto historiaClinicaActualizada = historiaClinicaService.actualizarHistoriaClinica(id,actualizada);
             return new ResponseEntity<HistoriaClinicaDto>(historiaClinicaActualizada, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
@@ -62,6 +64,7 @@ public class HistoriaClinicaController {
         try {
             return new ResponseEntity<List<HistoriaClinicaDto>>(historiaClinicaService.obtenerHistoriasClinicasDePaciente(idPaciente,fechaInicio,fechaFin,nombreMedico,nombreEspecialidad,diagnosticoPresuntivo,page,size),HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
@@ -71,6 +74,7 @@ public class HistoriaClinicaController {
             HistoriaClinicaDto historiaClinicaDto = historiaClinicaService.obtenerHistoriaClinicaPorId(idHistoriaClinica);
             return new ResponseEntity<>(historiaClinicaDto, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -88,6 +92,7 @@ public class HistoriaClinicaController {
         try {
             return new ResponseEntity<List<HistoriaClinicaDto>>(historiaClinicaService.obtenerHistoriasClinicas(fechaInicio,fechaFin,ciPaciente,nombrePaciente,nombreMedico,nombreEspecialidad,diagnosticoPresuntivo,page,size),HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }

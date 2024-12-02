@@ -117,8 +117,8 @@ public class PDFService {
         parameters.put("antecedentesPatologicos",historiaClinicaDto.getAntecedentesPatologicos() );
         parameters.put("antecedentesNoPatologicos",historiaClinicaDto.getAntecedentesNoPatologicos() );
         parameters.put("antecedentesGinecoobstetricos",historiaClinicaDto.getAntecedentesGinecoobstetricos() );
-        parameters.put("condicionesActuales",historiaClinicaDto.getExamenFisico() );
-        parameters.put("examenFisicoGeneral",historiaClinicaDto.getExamenFisicoEspecial() );
+        parameters.put("condicionesActuales",historiaClinicaDto.getAmnesis() );
+        parameters.put("examenFisicoGeneral",historiaClinicaDto.getExamenFisico() );
         parameters.put("examenFisicoEspecial",historiaClinicaDto.getExamenFisicoEspecial() );
         parameters.put("diagnosticoPresuntivo",historiaClinicaDto.getDiagnosticoPresuntivo() );
         parameters.put("diagnosticoDiferencial",historiaClinicaDto.getDiagnosticosDiferenciales() );

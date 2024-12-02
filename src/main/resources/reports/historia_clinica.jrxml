@@ -195,7 +195,7 @@
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<box padding="2"/>
 			</element>
-			<element kind="staticText" uuid="6f056ada-73a9-498e-bab2-7c7ad02f2886" x="0" y="168" width="515" height="14" bold="true" vTextAlign="Middle">
+			<!--<element kind="staticText" uuid="6f056ada-73a9-498e-bab2-7c7ad02f2886" x="0" y="168" width="515" height="14" bold="true" vTextAlign="Middle">
 				<text><![CDATA[Antecedentes ginecoobstetrico]]></text>
 				<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 			</element>
@@ -203,7 +203,7 @@
 				<expression><![CDATA[$P{antecedentesGinecoobstetricos}]]></expression>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<box padding="2"/>
-			</element>
+			</element>-->
 			<element kind="staticText" uuid="cdf1fd49-a1bf-420a-9d6d-84d01d7553b4" x="0" y="206" width="515" height="14" bold="true" vTextAlign="Middle">
 				<text><![CDATA[Condiciones actuales de salud o enfermedad]]></text>
 				<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
