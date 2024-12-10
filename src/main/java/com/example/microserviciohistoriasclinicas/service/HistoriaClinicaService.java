@@ -2,6 +2,7 @@ package com.example.microserviciohistoriasclinicas.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,19 +41,14 @@ public class HistoriaClinicaService {
 
     @Autowired
     private ConvertirTiposDatosService convertirTiposDatosService;
-    public List<HistoriaClinicaDto> obtenerHistoriasClinicas(String fechaInicio, String fechaFin, String ciPaciente, String nombrePaciente, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
-        List<HistoriaClinicaEntity> historiasCEntities = new ArrayList<>();
-        Specification<HistoriaClinicaEntity> spec = Specification.where(HistoriasClinicasSpecification.obtenerHistoriasClinicasPorParametros(convertirTiposDatosService.convertirStringADate(fechaInicio),convertirTiposDatosService.convertirStringADate(fechaFin),ciPaciente,nombrePaciente,nombreMedico,nombreEspecialidad,diagnosticoPresuntivo));
+    public Page<HistoriaClinicaDto> obtenerHistoriasClinicas(String fechaInicio, String fechaFin, String ciPaciente, String nombrePaciente, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
+        Pageable pageable = Pageable.unpaged();
         if(page!=null && size!=null){
-            Pageable pageable = PageRequest.of(page, size);
-            Page<HistoriaClinicaEntity> historiasEntitiesPage=historiaClinicaRepositoryJPA.findAll(spec,pageable);
-            historiasCEntities=historiasEntitiesPage.getContent();
-        }else{
-            historiasCEntities=historiaClinicaRepositoryJPA.findAll(spec);
-        }  
-        return historiasCEntities.stream()
-                    .map(histo -> new HistoriaClinicaDto().convertirHistoriaClinicaEntityAHistoriaClinicaDto(histo))
-                    .toList();
+            pageable = PageRequest.of(page, size);
+        } 
+        Specification<HistoriaClinicaEntity> spec = Specification.where(HistoriasClinicasSpecification.obtenerHistoriasClinicasPorParametros(convertirTiposDatosService.convertirStringADate(fechaInicio),convertirTiposDatosService.convertirStringADate(fechaFin),ciPaciente,nombrePaciente,nombreMedico,nombreEspecialidad,diagnosticoPresuntivo));
+        Page<HistoriaClinicaEntity> historiasEntitiesPage=historiaClinicaRepositoryJPA.findAll(spec,pageable);
+        return historiasEntitiesPage.map(HistoriaClinicaDto::convertirHistoriaClinicaEntityAHistoriaClinicaDto);
     }
     public HistoriaClinicaDto actualizarHistoriaClinica(Integer idHistoriaClinica, HistoriaClinicaDto historiaClinicaDto) {
         UsuarioEntity pacienteEntity = usuariosRepositoryJPA.findById(historiaClinicaDto.getIdPaciente())
@@ -81,21 +77,16 @@ public class HistoriaClinicaService {
         historiaClinicaRepositoryJPA.save(historiaClinicaEntity);
         return new HistoriaClinicaDto().convertirHistoriaClinicaEntityAHistoriaClinicaDto(historiaClinicaEntity);
     }
-    public List<HistoriaClinicaDto> obtenerHistoriasClinicasDePaciente(int idPaciente, String fechaInicio, String fechaFin, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
+    public Page<HistoriaClinicaDto> obtenerHistoriasClinicasDePaciente(int idPaciente, String fechaInicio, String fechaFin, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
+        Pageable pageable = Pageable.unpaged();
+        if(page!=null && size!=null){
+            pageable = PageRequest.of(page, size);
+        } 
         UsuarioEntity usuarioEntity = usuariosRepositoryJPA.findById(idPaciente)
         .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        List<HistoriaClinicaEntity> historiasEntities = new ArrayList<>();
         Specification<HistoriaClinicaEntity> spec = Specification.where(HistoriasClinicasSpecification.obtenerHistoriasClinicasDePacientePorParametros(idPaciente,convertirTiposDatosService.convertirStringADate(fechaInicio),convertirTiposDatosService.convertirStringADate(fechaFin),nombreMedico,nombreEspecialidad,diagnosticoPresuntivo));
-        if(page!=null && size!=null){
-            Pageable pageable = PageRequest.of(page, size);
-            Page<HistoriaClinicaEntity> historiasEntitiesPage=historiaClinicaRepositoryJPA.findAll(spec,pageable);
-            historiasEntities=historiasEntitiesPage.getContent();
-        }else{
-            historiasEntities=historiaClinicaRepositoryJPA.findAll(spec);
-        }  
-        return historiasEntities.stream()
-                    .map(nota -> new HistoriaClinicaDto().convertirHistoriaClinicaEntityAHistoriaClinicaDto(nota))
-                    .toList();
+        Page<HistoriaClinicaEntity> historiasEntitiesPage=historiaClinicaRepositoryJPA.findAll(spec,pageable);
+        return historiasEntitiesPage.map(HistoriaClinicaDto::convertirHistoriaClinicaEntityAHistoriaClinicaDto);
     }
     public HistoriaClinicaDto crearHistoriaClinica(HistoriaClinicaDto historiaClinicaDto) {
         UsuarioEntity pacienteEntity = usuariosRepositoryJPA.findById(historiaClinicaDto.getIdPaciente())
@@ -134,5 +125,23 @@ public class HistoriaClinicaService {
         } catch (Exception e) {
             throw new RuntimeException("Error al generar el PDF de la historia clinica.", e);
         }
+    }
+    public void delete(int id) {
+        HistoriaClinicaEntity historiaClinicaEntity = historiaClinicaRepositoryJPA.findByIdHistoriaClinicaAndDeletedAtIsNull(id)
+        .orElseThrow(() -> new RuntimeException("Historia clinica no encontrada"));
+        historiaClinicaEntity.markAsDeleted();
+        historiaClinicaRepositoryJPA.save(historiaClinicaEntity);
+    }
+    public void unirHistorias(Map<String,Integer> historias) {
+        int idHistoriaDestino=historias.get("idHistoriaDestino");
+        int idHistoriaAUnir=historias.get("idHistoriaAUnir");
+        delete(idHistoriaAUnir);
+        historiaClinicaRepositoryJPA.unirNotasEvolucionDeHistoriaAUnirAHistoriaDestino(idHistoriaAUnir,idHistoriaDestino);
+        historiaClinicaRepositoryJPA.unirExamenesComplementariosDeHistoriaAUnirAHistoriaDestino(idHistoriaAUnir,idHistoriaDestino);
+        historiaClinicaRepositoryJPA.unirNotasReferenciaDeHistoriaAUnirAHistoriaDestino(idHistoriaAUnir,idHistoriaDestino);
+        historiaClinicaRepositoryJPA.unirPapeletasInternacionDeHistoriaAUnirAHistoriaDestino(idHistoriaAUnir,idHistoriaDestino);
+        historiaClinicaRepositoryJPA.unirRecetasDeHistoriaAUnirAHistoriaDestino(idHistoriaAUnir,idHistoriaDestino);
+        historiaClinicaRepositoryJPA.unirSolicitudesInterconsultaDeHistoriaAUnirAHistoriaDestino(idHistoriaAUnir,idHistoriaDestino);
+
     }
 }

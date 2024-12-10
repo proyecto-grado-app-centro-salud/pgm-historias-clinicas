@@ -58,34 +58,24 @@ public class NotasEvolucionService {
         return new NotaEvolucionDto().convertirNotaEvolucionEntityANotaEvolucionDto(notaEvolucionEntity);
     }
 
-    public List<NotaEvolucionDto> obtenerTodasNotasEvolucion(String fechaInicio, String fechaFin, String ciPaciente, String nombrePaciente, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
-        List<NotaEvolucionEntity> notasEntities = new ArrayList<>();
+    public Page<NotaEvolucionDto> obtenerTodasNotasEvolucion(String fechaInicio, String fechaFin, String ciPaciente, String nombrePaciente, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
+        Pageable pageable = Pageable.unpaged();
+        if(page!=null && size!=null){
+            pageable = PageRequest.of(page, size);
+        } 
         Specification<NotaEvolucionEntity> spec = Specification.where(NotasEvolucionSpecification.obtenerNotasEvolucionPorParametros(convertirTiposDatosService.convertirStringADate(fechaInicio),convertirTiposDatosService.convertirStringADate(fechaFin),ciPaciente,nombrePaciente,nombreMedico,nombreEspecialidad,diagnosticoPresuntivo));
-        if(page!=null && size!=null){
-            Pageable pageable = PageRequest.of(page, size);
-            Page<NotaEvolucionEntity> comunicadosEntitiesPage=notaEvolucionRepository.findAll(spec,pageable);
-            notasEntities=comunicadosEntitiesPage.getContent();
-        }else{
-            notasEntities=notaEvolucionRepository.findAll(spec);
-        }  
-        List<NotaEvolucionDto> comunicadosDtos = new ArrayList<>();
-        return notasEntities.stream()
-                    .map(nota -> new NotaEvolucionDto().convertirNotaEvolucionEntityANotaEvolucionDto(nota))
-                    .toList();
+        Page<NotaEvolucionEntity> notasEntitiesPage=notaEvolucionRepository.findAll(spec,pageable);
+        return notasEntitiesPage.map(NotaEvolucionDto::convertirNotaEvolucionEntityANotaEvolucionDto);
     }
-    public List<NotaEvolucionDto> obtenerTodasNotasEvolucionDePaciente(int idPaciente,String fechaInicio, String fechaFin, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
-        List<NotaEvolucionEntity> notasEntities = new ArrayList<>();
-        Specification<NotaEvolucionEntity> spec = Specification.where(NotasEvolucionSpecification.obtenerNotasEvolucionDePacientePorParametros(idPaciente,convertirTiposDatosService.convertirStringADate(fechaInicio),convertirTiposDatosService.convertirStringADate(fechaFin),nombreMedico,nombreEspecialidad,diagnosticoPresuntivo));
+    public Page<NotaEvolucionDto> obtenerTodasNotasEvolucionDePaciente(int idPaciente,String fechaInicio, String fechaFin, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
+        Pageable pageable = Pageable.unpaged();
         if(page!=null && size!=null){
-            Pageable pageable = PageRequest.of(page, size);
-            Page<NotaEvolucionEntity> comunicadosEntitiesPage=notaEvolucionRepository.findAll(spec,pageable);
-            notasEntities=comunicadosEntitiesPage.getContent();
-        }else{
-            notasEntities=notaEvolucionRepository.findAll(spec);
-        }  
-        return notasEntities.stream()
-                    .map(nota -> new NotaEvolucionDto().convertirNotaEvolucionEntityANotaEvolucionDto(nota))
-                    .toList();
+            pageable = PageRequest.of(page, size);
+        } 
+        Specification<NotaEvolucionEntity> spec = Specification.where(NotasEvolucionSpecification.obtenerNotasEvolucionDePacientePorParametros(idPaciente,convertirTiposDatosService.convertirStringADate(fechaInicio),convertirTiposDatosService.convertirStringADate(fechaFin),nombreMedico,nombreEspecialidad,diagnosticoPresuntivo));
+        Page<NotaEvolucionEntity> notasEntitiesPage=notaEvolucionRepository.findAll(spec,pageable);
+        return notasEntitiesPage
+                    .map(NotaEvolucionDto::convertirNotaEvolucionEntityANotaEvolucionDto);
     }
 
     public NotaEvolucionDto obtenerNotaEvolucionPorId(Integer id) {
@@ -103,7 +93,7 @@ public class NotasEvolucionService {
     }
 
     public NotaEvolucionDto actualizarNotaEvolucion(Integer idNotaEvolucion, NotaEvolucionDto notaEvolucionDto) {
-        NotaEvolucionEntity notaEvolucionEntity = notaEvolucionRepository.findById(idNotaEvolucion)
+        NotaEvolucionEntity notaEvolucionEntity = notaEvolucionRepository.findByIdNotaEvolucionAndDeletedAtIsNull(idNotaEvolucion)
             .orElseThrow(() -> new RuntimeException("Nota de evolución no encontrada"));
         UsuarioEntity medicoEntity = usuariosRepositoryJPA.findById(notaEvolucionDto.getIdMedico())
         .orElseThrow(() -> new RuntimeException("Medico no encontrado"));
@@ -115,5 +105,12 @@ public class NotasEvolucionService {
         notaEvolucionEntity = notaEvolucionRepository.save(notaEvolucionEntity);
         notaEvolucionRepository.save(notaEvolucionEntity);
         return new NotaEvolucionDto().convertirNotaEvolucionEntityANotaEvolucionDto(notaEvolucionEntity);
+    }
+
+    public void delete(int id) {
+        NotaEvolucionEntity notaEvolucionEntity = notaEvolucionRepository.findByIdNotaEvolucionAndDeletedAtIsNull(id)
+            .orElseThrow(() -> new RuntimeException("Nota de evolución no encontrada"));
+            notaEvolucionEntity.markAsDeleted();
+        notaEvolucionRepository.save(notaEvolucionEntity);
     }
 }

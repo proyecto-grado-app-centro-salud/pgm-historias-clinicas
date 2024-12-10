@@ -37,7 +37,7 @@ public class HistoriaClinicaDto {
     private Date createdAt;
     private Date updatedAt;
     private Date deletedAt;
-    public HistoriaClinicaDto convertirHistoriaClinicaEntityAHistoriaClinicaDto(HistoriaClinicaEntity historiaClinicaEntity) {
+    public static HistoriaClinicaDto convertirHistoriaClinicaEntityAHistoriaClinicaDto(HistoriaClinicaEntity historiaClinicaEntity) {
         HistoriaClinicaDto historiaClinicaDto = new HistoriaClinicaDto();
         historiaClinicaDto.setId(historiaClinicaEntity.getIdHistoriaClinica());
         historiaClinicaDto.setAmnesis(historiaClinicaEntity.getAmnesis());

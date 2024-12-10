@@ -27,7 +27,7 @@ public class NotaEvolucionDto {
     Integer idPaciente;
     String pacientePropietario;
     String ciPropietario;
-    public NotaEvolucionDto convertirNotaEvolucionEntityANotaEvolucionDto(NotaEvolucionEntity notaEvolucionEntity) {
+    public static NotaEvolucionDto convertirNotaEvolucionEntityANotaEvolucionDto(NotaEvolucionEntity notaEvolucionEntity) {
         NotaEvolucionDto notaEvolucionDto = new NotaEvolucionDto();
         notaEvolucionDto.setId(notaEvolucionEntity.getIdNotaEvolucion());
         notaEvolucionDto.setCambiosPacienteResultadosTratamiento(notaEvolucionEntity.getCambiosPacienteResultadosTratamiento());
