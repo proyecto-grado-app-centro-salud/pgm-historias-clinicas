@@ -1,12 +1,12 @@
 version: 0.2
 env:
   variables:
-    ECR_REPO_NAME: microservicio-historias-clinicas 
+    ECR_REPO_NAME: microservicio-hc
 phases:
   pre_build:
     commands:
       # Docker Hub login
-      #- echo ${DOCKERHUB_TOKEN} | docker login -u ${DOCKERHUB_USER} --password-stdin 
+      - echo "dckr_pat_qDaLrCwn88VEoiPa7N9GrIaDIhw" | docker login -u bitius060400 --password-stdin 
       - mvn clean package -Dmaven.test.skip=true
       # ECR login
       - ECR_MAIN_URI="583863894994.dkr.ecr.us-east-1.amazonaws.com"
