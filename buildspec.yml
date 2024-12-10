@@ -1,7 +1,7 @@
 version: 0.2
 env:
   variables:
-    ECR_REPO_NAME: microservicio-hc
+    ECR_REPO_NAME: microservicio-historias-clinicas 
 phases:
   pre_build:
     commands:
