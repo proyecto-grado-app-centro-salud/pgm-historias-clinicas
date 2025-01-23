@@ -23,10 +23,30 @@ import com.example.microserviciohistoriasclinicas.repository.UsuariosRepositoryJ
 import com.example.microserviciohistoriasclinicas.util.specifications.HistoriasClinicasSpecification;
 import com.example.microserviciohistoriasclinicas.util.specifications.NotasEvolucionSpecification;
 
+import jakarta.transaction.Transactional;
 import net.sf.jasperreports.engine.JRException;
 
 @Service
 public class HistoriaClinicaService {
+
+    @Autowired
+    ExamenesComplementariosService examenesComplementariosService;
+
+    @Autowired
+    NotasEvolucionService notasEvolucionService;
+
+    @Autowired
+    NotasReferenciaService notasReferenciaService;
+
+    @Autowired
+    PapeletasInternacionService papeletasInternacionService;
+
+    @Autowired
+    RecetasService recetasService;
+
+    @Autowired
+    SolicitudesInterconsultasService solicitudesInterconsultasService;
+
     @Autowired
     HistoriaClinicaRepositoryJPA historiaClinicaRepositoryJPA;
 
@@ -51,13 +71,13 @@ public class HistoriaClinicaService {
         return historiasEntitiesPage.map(HistoriaClinicaDto::convertirHistoriaClinicaEntityAHistoriaClinicaDto);
     }
     public HistoriaClinicaDto actualizarHistoriaClinica(Integer idHistoriaClinica, HistoriaClinicaDto historiaClinicaDto) {
-        UsuarioEntity pacienteEntity = usuariosRepositoryJPA.findById(historiaClinicaDto.getIdPaciente())
+        UsuarioEntity pacienteEntity = usuariosRepositoryJPA.findByIdUsuarioAndDeletedAtIsNull(historiaClinicaDto.getIdPaciente())
         .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
-        UsuarioEntity medicoEntity = usuariosRepositoryJPA.findById(historiaClinicaDto.getIdMedico())
+        UsuarioEntity medicoEntity = usuariosRepositoryJPA.findByIdUsuarioAndDeletedAtIsNull(historiaClinicaDto.getIdMedico())
         .orElseThrow(() -> new RuntimeException("Medico no encontrado"));
-        EspecialidadesEntity especialidadesEntity = especialidadesRepositoryJPA.findById(historiaClinicaDto.getIdEspecialidad())
+        EspecialidadesEntity especialidadesEntity = especialidadesRepositoryJPA.findByIdEspecialidadAndDeletedAtIsNull(historiaClinicaDto.getIdEspecialidad())
         .orElseThrow(() -> new RuntimeException("Especialidad no encontrada"));
-        HistoriaClinicaEntity historiaClinicaEntity = historiaClinicaRepositoryJPA.findById(idHistoriaClinica)
+        HistoriaClinicaEntity historiaClinicaEntity = historiaClinicaRepositoryJPA.findByIdHistoriaClinicaAndDeletedAtIsNull(idHistoriaClinica)
         .orElseThrow(() -> new RuntimeException("Historia clinica no encontrada"));
         historiaClinicaEntity.setAmnesis(historiaClinicaDto.getAmnesis());
         historiaClinicaEntity.setAntecedentesFamiliares(historiaClinicaDto.getAntecedentesFamiliares());
@@ -89,11 +109,11 @@ public class HistoriaClinicaService {
         return historiasEntitiesPage.map(HistoriaClinicaDto::convertirHistoriaClinicaEntityAHistoriaClinicaDto);
     }
     public HistoriaClinicaDto crearHistoriaClinica(HistoriaClinicaDto historiaClinicaDto) {
-        UsuarioEntity pacienteEntity = usuariosRepositoryJPA.findById(historiaClinicaDto.getIdPaciente())
+        UsuarioEntity pacienteEntity = usuariosRepositoryJPA.findByIdUsuarioAndDeletedAtIsNull(historiaClinicaDto.getIdPaciente())
         .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
-        UsuarioEntity medicoEntity = usuariosRepositoryJPA.findById(historiaClinicaDto.getIdMedico())
+        UsuarioEntity medicoEntity = usuariosRepositoryJPA.findByIdUsuarioAndDeletedAtIsNull(historiaClinicaDto.getIdMedico())
         .orElseThrow(() -> new RuntimeException("Medico no encontrado"));
-        EspecialidadesEntity especialidadesEntity = especialidadesRepositoryJPA.findById(historiaClinicaDto.getIdEspecialidad())
+        EspecialidadesEntity especialidadesEntity = especialidadesRepositoryJPA.findByIdEspecialidadAndDeletedAtIsNull(historiaClinicaDto.getIdEspecialidad())
         .orElseThrow(() -> new RuntimeException("Especialidad no encontrada"));
         HistoriaClinicaEntity historiaClinicaEntity = new HistoriaClinicaEntity();
         historiaClinicaEntity.setAmnesis(historiaClinicaDto.getAmnesis());
@@ -126,22 +146,31 @@ public class HistoriaClinicaService {
             throw new RuntimeException("Error al generar el PDF de la historia clinica.", e);
         }
     }
-    public void delete(int id) {
-        HistoriaClinicaEntity historiaClinicaEntity = historiaClinicaRepositoryJPA.findByIdHistoriaClinicaAndDeletedAtIsNull(id)
+    public void delete(int idHistoriaClinica) {
+        HistoriaClinicaEntity historiaClinicaEntity = historiaClinicaRepositoryJPA.findByIdHistoriaClinicaAndDeletedAtIsNull(idHistoriaClinica)
         .orElseThrow(() -> new RuntimeException("Historia clinica no encontrada"));
         historiaClinicaEntity.markAsDeleted();
         historiaClinicaRepositoryJPA.save(historiaClinicaEntity);
+        examenesComplementariosService.eliminarExamenesComplemetariosDeHistoriaClinica(idHistoriaClinica);
+        notasEvolucionService.deleteNotasEvolucionDeHistoriaClinica(idHistoriaClinica);
+        notasReferenciaService.eliminarNotasReferenciaDeHistoriaClinica(idHistoriaClinica);
+        papeletasInternacionService.eliminarPapeletasInternacionDeHistoriaClinica(idHistoriaClinica);
+        recetasService.eliminarRecetasDeHistoriaClinica(idHistoriaClinica);
+        solicitudesInterconsultasService.eliminarSolicitudesInterconsultasDeHistoriaClinica(idHistoriaClinica);
     }
+
+
+    @Transactional
     public void unirHistorias(Map<String,Integer> historias) {
         int idHistoriaDestino=historias.get("idHistoriaDestino");
         int idHistoriaAUnir=historias.get("idHistoriaAUnir");
-        delete(idHistoriaAUnir);
         historiaClinicaRepositoryJPA.unirNotasEvolucionDeHistoriaAUnirAHistoriaDestino(idHistoriaAUnir,idHistoriaDestino);
         historiaClinicaRepositoryJPA.unirExamenesComplementariosDeHistoriaAUnirAHistoriaDestino(idHistoriaAUnir,idHistoriaDestino);
         historiaClinicaRepositoryJPA.unirNotasReferenciaDeHistoriaAUnirAHistoriaDestino(idHistoriaAUnir,idHistoriaDestino);
         historiaClinicaRepositoryJPA.unirPapeletasInternacionDeHistoriaAUnirAHistoriaDestino(idHistoriaAUnir,idHistoriaDestino);
         historiaClinicaRepositoryJPA.unirRecetasDeHistoriaAUnirAHistoriaDestino(idHistoriaAUnir,idHistoriaDestino);
         historiaClinicaRepositoryJPA.unirSolicitudesInterconsultaDeHistoriaAUnirAHistoriaDestino(idHistoriaAUnir,idHistoriaDestino);
+        delete(idHistoriaAUnir);
 
     }
 }

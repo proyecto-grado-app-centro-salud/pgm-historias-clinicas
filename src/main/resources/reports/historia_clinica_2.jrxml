@@ -30,6 +30,9 @@
 	<parameter name="nombreCompletoPaciente" class="java.lang.String"/>
 	<detail>
 		<band height="36">
+			<element kind="image" uuid="c970f5b3-f369-416e-a84b-31ce175149a3" x="445" y="0" width="35" height="30">
+				<expression><![CDATA[$P{IMAGE_PATH}]]></expression>
+			</element>
 			<element kind="staticText" uuid="10563923-6b66-43f5-a075-411f5e6b111c" x="0" y="0" width="360" height="30" fontSize="12.0" hTextAlign="Left" vTextAlign="Middle">
 				<text><![CDATA[HOSPITAL CLINICO]]></text>
 			</element>
@@ -152,115 +155,115 @@
 			</element>
 		</band>
 		<band height="486">
-			<element kind="staticText" uuid="69807dce-685d-4085-9557-6c1505a09f10" positionType="Float" stretchType="NoStretch" x="0" y="0" width="515" height="16" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<element kind="staticText" uuid="69807dce-685d-4085-9557-6c1505a09f10" stretchType="ElementGroupHeight" x="0" y="0" width="515" height="16" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
 				<text><![CDATA[HISTORIA CLINICA]]></text>
 				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			</element>
-			<element kind="staticText" uuid="f198ee49-d918-495f-88ed-81a814c49424" positionType="Float" x="0" y="16" width="515" height="14" bold="true" vTextAlign="Middle">
+			<element kind="staticText" uuid="f198ee49-d918-495f-88ed-81a814c49424" x="0" y="16" width="515" height="14" bold="true" vTextAlign="Middle">
 				<text><![CDATA[Antecedentes personales]]></text>
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			</element>
-			<element kind="textField" uuid="86c838e0-48c0-41b8-a974-0ea88b6dff9d" positionType="Float" stretchType="NoStretch" x="0" y="30" width="515" height="24" textAdjust="StretchHeight">
+			<element kind="textField" uuid="86c838e0-48c0-41b8-a974-0ea88b6dff9d" x="0" y="30" width="515" height="24">
 				<expression><![CDATA[$P{antecedentesPersonales}]]></expression>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<box padding="2"/>
 			</element>
-			<element kind="staticText" uuid="5819e3bb-bd78-4060-a614-4547d04028cd" positionType="Float" x="0" y="54" width="515" height="14" bold="true" vTextAlign="Middle">
+			<element kind="staticText" uuid="5819e3bb-bd78-4060-a614-4547d04028cd" x="0" y="54" width="515" height="14" bold="true" vTextAlign="Middle">
 				<text><![CDATA[Antecedentes familiares]]></text>
 			</element>
-			<element kind="textField" uuid="b5389895-b608-4805-9732-c98558be1b0e" positionType="Float" stretchType="NoStretch" x="0" y="68" width="515" height="24" textAdjust="StretchHeight">
+			<element kind="textField" uuid="b5389895-b608-4805-9732-c98558be1b0e" x="0" y="68" width="515" height="24">
 				<expression><![CDATA[$P{antecedentesFamiliares}]]></expression>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<box padding="2"/>
 			</element>
-			<element kind="staticText" uuid="b03f7022-63c1-499b-b7e9-062ac7bf225b" positionType="Float" x="0" y="92" width="515" height="14" bold="true" vTextAlign="Middle">
+			<element kind="staticText" uuid="b03f7022-63c1-499b-b7e9-062ac7bf225b" x="0" y="92" width="515" height="14" bold="true" vTextAlign="Middle">
 				<text><![CDATA[Antecedentes patologicos]]></text>
 				<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 			</element>
-			<element kind="textField" uuid="fce7feae-825f-4e59-bdc6-386c696378e5" positionType="Float" stretchType="NoStretch" x="0" y="106" width="515" height="24" textAdjust="StretchHeight">
+			<element kind="textField" uuid="fce7feae-825f-4e59-bdc6-386c696378e5" x="0" y="106" width="515" height="24">
 				<expression><![CDATA[$P{antecedentesPatologicos}]]></expression>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<box padding="2"/>
 			</element>
-			<element kind="staticText" uuid="7a5cd4b3-4254-4d51-a3f5-88ea4ec1bd9b" positionType="Float" stretchType="NoStretch" x="0" y="130" width="515" height="14" bold="true" vTextAlign="Middle">
+			<element kind="staticText" uuid="7a5cd4b3-4254-4d51-a3f5-88ea4ec1bd9b" x="0" y="130" width="515" height="14" bold="true" vTextAlign="Middle">
 				<text><![CDATA[Antecedentes no patologicos]]></text>
 				<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 			</element>
-			<element kind="textField" uuid="ed7de3f2-5c25-4d4c-a61b-42e4fc3b49e8" positionType="Float" stretchType="NoStretch" x="0" y="144" width="515" height="24" textAdjust="StretchHeight">
+			<element kind="textField" uuid="ed7de3f2-5c25-4d4c-a61b-42e4fc3b49e8" x="0" y="144" width="515" height="24">
 				<expression><![CDATA[$P{antecedentesNoPatologicos}]]></expression>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<box padding="2"/>
 			</element>
-			<element kind="staticText" uuid="6f056ada-73a9-498e-bab2-7c7ad02f2886" positionType="Float" x="0" y="168" width="515" height="14" bold="true" vTextAlign="Middle">
+			<!--<element kind="staticText" uuid="6f056ada-73a9-498e-bab2-7c7ad02f2886" x="0" y="168" width="515" height="14" bold="true" vTextAlign="Middle">
 				<text><![CDATA[Antecedentes ginecoobstetrico]]></text>
 				<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 			</element>
-			<element kind="textField" uuid="7b4a62ae-831a-417f-897a-08f2748b5d9e" positionType="Float" stretchType="NoStretch" x="0" y="182" width="515" height="24" textAdjust="StretchHeight">
+			<element kind="textField" uuid="7b4a62ae-831a-417f-897a-08f2748b5d9e" x="0" y="182" width="515" height="24">
 				<expression><![CDATA[$P{antecedentesGinecoobstetricos}]]></expression>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<box padding="2"/>
-			</element>
-			<element kind="staticText" uuid="cdf1fd49-a1bf-420a-9d6d-84d01d7553b4" positionType="Float" x="0" y="206" width="515" height="14" bold="true" vTextAlign="Middle">
+			</element>-->
+			<element kind="staticText" uuid="cdf1fd49-a1bf-420a-9d6d-84d01d7553b4" x="0" y="206" width="515" height="14" bold="true" vTextAlign="Middle">
 				<text><![CDATA[Condiciones actuales de salud o enfermedad]]></text>
 				<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 			</element>
-			<element kind="textField" uuid="f25c02a3-4226-43d7-85fa-64b7c977ef02" positionType="Float" stretchType="NoStretch" x="0" y="220" width="515" height="24" textAdjust="StretchHeight">
+			<element kind="textField" uuid="f25c02a3-4226-43d7-85fa-64b7c977ef02" x="0" y="220" width="515" height="24">
 				<expression><![CDATA[$P{condicionesActuales}]]></expression>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<box padding="2"/>
 			</element>
-			<element kind="staticText" uuid="4e8805bc-67f1-4b50-803d-e5f0961856d3" positionType="Float" x="0" y="244" width="515" height="14" bold="true" vTextAlign="Middle">
+			<element kind="staticText" uuid="4e8805bc-67f1-4b50-803d-e5f0961856d3" x="0" y="244" width="515" height="14" bold="true" vTextAlign="Middle">
 				<text><![CDATA[Examen fisico general]]></text>
 				<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 			</element>
-			<element kind="textField" uuid="b58066cd-1c76-4e8f-b5ae-fa18aee77d6f" positionType="Float" stretchType="NoStretch" x="0" y="258" width="515" height="24" textAdjust="StretchHeight">
+			<element kind="textField" uuid="b58066cd-1c76-4e8f-b5ae-fa18aee77d6f" x="0" y="258" width="515" height="24">
 				<expression><![CDATA[$P{examenFisicoGeneral}]]></expression>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<box padding="2"/>
 			</element>
-			<element kind="staticText" uuid="4e8805bc-67f1-4b50-803d-e5f0961856d3" positionType="Float" x="0" y="282" width="515" height="14" bold="true" vTextAlign="Middle">
+			<element kind="staticText" uuid="4e8805bc-67f1-4b50-803d-e5f0961856d3" x="0" y="282" width="515" height="14" bold="true" vTextAlign="Middle">
 				<text><![CDATA[Examen fisico especial]]></text>
 				<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 			</element>
-			<element kind="textField" uuid="b58066cd-1c76-4e8f-b5ae-fa18aee77d6f" positionType="Float" stretchType="NoStretch" x="0" y="296" width="515" height="24" textAdjust="StretchHeight">
+			<element kind="textField" uuid="b58066cd-1c76-4e8f-b5ae-fa18aee77d6f" x="0" y="296" width="515" height="24">
 				<expression><![CDATA[$P{examenFisicoEspecial}]]></expression>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<box padding="2"/>
 			</element>
-			<element kind="staticText" uuid="b68e4feb-f571-4c6b-8cd6-977e98ffc9d5" positionType="Float" x="0" y="320" width="515" height="14" bold="true" vTextAlign="Middle">
+			<element kind="staticText" uuid="b68e4feb-f571-4c6b-8cd6-977e98ffc9d5" x="0" y="320" width="515" height="14" bold="true" vTextAlign="Middle">
 				<text><![CDATA[Diagnostico presuntivo]]></text>
 				<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 			</element>
-			<element kind="textField" uuid="44864343-5ecf-4a3b-a602-95011b98598f" positionType="Float" stretchType="NoStretch" x="0" y="334" width="515" height="16" textAdjust="StretchHeight">
+			<element kind="textField" uuid="44864343-5ecf-4a3b-a602-95011b98598f" x="0" y="334" width="515" height="16">
 				<expression><![CDATA[$P{diagnosticoPresuntivo}]]></expression>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<box padding="2"/>
 			</element>
-			<element kind="staticText" uuid="bb36030d-4d05-4bd6-a3f1-2bfcd719ca70" positionType="Float" x="0" y="350" width="515" height="14" bold="true" vTextAlign="Middle">
+			<element kind="staticText" uuid="bb36030d-4d05-4bd6-a3f1-2bfcd719ca70" x="0" y="350" width="515" height="14" bold="true" vTextAlign="Middle">
 				<text><![CDATA[Diagnostico diferencial]]></text>
 				<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 			</element>
-			<element kind="textField" uuid="e570f9d9-0418-4bae-aba2-7d7324e5bffd" positionType="Float" stretchType="NoStretch" x="0" y="364" width="515" height="24" textAdjust="StretchHeight">
+			<element kind="textField" uuid="e570f9d9-0418-4bae-aba2-7d7324e5bffd" x="0" y="364" width="515" height="24">
 				<expression><![CDATA[$P{diagnosticoDiferencial}]]></expression>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<box padding="2"/>
 			</element>
-			<element kind="staticText" uuid="3675db3f-512f-486a-be75-d65b19650dc5" positionType="Float" x="0" y="388" width="515" height="14" bold="true" vTextAlign="Middle">
+			<element kind="staticText" uuid="3675db3f-512f-486a-be75-d65b19650dc5" x="0" y="388" width="515" height="14" bold="true" vTextAlign="Middle">
 				<text><![CDATA[Tratamiento]]></text>
 				<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 			</element>
-			<element kind="textField" uuid="e2200ddf-2e5a-413d-a1f3-47d35e4ce0e9" positionType="Float" stretchType="NoStretch" x="0" y="402" width="515" height="24" textAdjust="StretchHeight">
+			<element kind="textField" uuid="e2200ddf-2e5a-413d-a1f3-47d35e4ce0e9" x="0" y="402" width="515" height="24">
 				<expression><![CDATA[$P{tratamiento}]]></expression>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<box padding="2"/>
 			</element>
-			<element kind="staticText" uuid="f944584b-c8ff-4bc6-af51-a3401ff55d3c" positionType="Float" x="0" y="426" width="515" height="14" bold="true" vTextAlign="Middle">
+			<element kind="staticText" uuid="f944584b-c8ff-4bc6-af51-a3401ff55d3c" x="0" y="426" width="515" height="14" bold="true" vTextAlign="Middle">
 				<text><![CDATA[Propuesta basica de conducta]]></text>
 				<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 			</element>
-			<element kind="textField" uuid="128745d3-a78b-42fd-b156-88a4ced6413e" positionType="Float" stretchType="NoStretch" x="0" y="440" width="515" height="24" textAdjust="StretchHeight">
+			<element kind="textField" uuid="128745d3-a78b-42fd-b156-88a4ced6413e" x="0" y="440" width="515" height="24">
 				<expression><![CDATA[$P{propuestaBasicaDeConducta}]]></expression>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				<box padding="2"/>

@@ -1,10 +1,12 @@
 package com.example.microserviciohistoriasclinicas.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -35,4 +37,8 @@ public interface NotaEvolucionRepository extends JpaRepository<NotaEvolucionEnti
     + "WHERE p.idUsuario = :idPaciente")
     List<NotaEvolucionEntity> obtenerNotasEvolucionPaciente(@Param("idPaciente") int idPaciente);
     Optional<NotaEvolucionEntity> findByIdNotaEvolucionAndDeletedAtIsNull(int idNotaEvolucion);
+
+    @Modifying
+    @Query(value = "UPDATE notas_evolucion SET deleted_at = ?2 WHERE id_historia_clinica = ?1", nativeQuery = true)
+    void markAsDeletedAllNotasEvolucionFromHistoriaClinica(int idHistoriaClinica, Date date);
 }

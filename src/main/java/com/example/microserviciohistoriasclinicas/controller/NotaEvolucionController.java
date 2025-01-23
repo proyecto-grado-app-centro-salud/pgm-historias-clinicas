@@ -31,6 +31,8 @@ import com.example.microserviciohistoriasclinicas.repository.NotaEvolucionReposi
 import com.example.microserviciohistoriasclinicas.service.ContainerMetadataService;
 import com.example.microserviciohistoriasclinicas.service.NotasEvolucionService;
 
+import jakarta.annotation.security.PermitAll;
+
 @RestController
 @RequestMapping(path = "/notas-evolucion")
 public class NotaEvolucionController {
@@ -40,6 +42,7 @@ public class NotaEvolucionController {
     NotasEvolucionService notasEvolucionService;
 
     @PostMapping
+    @PermitAll
     public ResponseEntity<NotaEvolucionDto> registrarNotaEvolucion(@RequestBody NotaEvolucionDto notaEvolucionDto) {
         try {
             NotaEvolucionDto nuevaNota = notasEvolucionService.registrarNotaEvolucion(notaEvolucionDto);
@@ -49,7 +52,8 @@ public class NotaEvolucionController {
             return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-  @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{id}")
+    @PermitAll
     public ResponseEntity<Void> delete(@PathVariable int id) {
         try{
             notasEvolucionService.delete(id);
@@ -60,6 +64,7 @@ public class NotaEvolucionController {
         }
     }
     @GetMapping
+    @PermitAll
     public ResponseEntity<Page<NotaEvolucionDto>> obtenerTodasNotasEvolucion(@RequestParam(required = false) String fechaInicio, @RequestParam(required = false) String fechaFin,@RequestParam(required = false) String ciPaciente,@RequestParam(required = false) String nombrePaciente,@RequestParam(required = false) String nombreMedico,@RequestParam(required = false) String nombreEspecialidad,@RequestParam(required = false) String diagnosticoPresuntivo,@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size) {
         try {
             Page<NotaEvolucionDto> notas = notasEvolucionService.obtenerTodasNotasEvolucion(fechaInicio,fechaFin,ciPaciente,nombrePaciente,nombreMedico,nombreEspecialidad,diagnosticoPresuntivo,page,size);
@@ -71,6 +76,7 @@ public class NotaEvolucionController {
     }
 
     @GetMapping("/{id}")
+    @PermitAll
     public ResponseEntity<NotaEvolucionDto> obtenerNotaEvolucionPorId(@PathVariable Integer id) {
         try {
             NotaEvolucionDto nota = notasEvolucionService.obtenerNotaEvolucionPorId(id);
@@ -81,6 +87,7 @@ public class NotaEvolucionController {
         }
     }
     @GetMapping("/pdf")
+    @PermitAll
     public ResponseEntity<byte[]> obtenerNotaEvolucionPDFPorId(NotaEvolucionDto notaEvolucionDto) {
         try {
             byte[] pdfBytes = notasEvolucionService.obtenerPDFNotaEvolucion(notaEvolucionDto);
@@ -100,6 +107,7 @@ public class NotaEvolucionController {
 
 
     @PutMapping("/{id}")
+    @PermitAll
     public ResponseEntity<NotaEvolucionDto> actualizarNotaEvolucion(@PathVariable Integer id, @RequestBody NotaEvolucionDto actualizada) {
         try {
             NotaEvolucionDto notaActualizada = notasEvolucionService.actualizarNotaEvolucion(id,actualizada);
@@ -110,6 +118,7 @@ public class NotaEvolucionController {
         }
     }
     @GetMapping("/paciente/{idPaciente}")
+    @PermitAll
     public ResponseEntity<Page<NotaEvolucionDto>> obtenerNotasEvolucionPaciente(@PathVariable int idPaciente,@RequestParam(required = false) String fechaInicio, @RequestParam(required = false) String fechaFin,@RequestParam(required = false) String nombreMedico,@RequestParam(required = false) String nombreEspecialidad,@RequestParam(required = false) String diagnosticoPresuntivo,@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size) {
         try {
             Page<NotaEvolucionDto> notas = notasEvolucionService.obtenerTodasNotasEvolucionDePaciente(idPaciente,fechaInicio,fechaFin,nombreMedico,nombreEspecialidad,diagnosticoPresuntivo,page,size);
@@ -120,6 +129,7 @@ public class NotaEvolucionController {
         }
     }
     @GetMapping("/info-container")
+    @PermitAll
     public @ResponseBody String obtenerInformacionContenedor() {
         return "microservicio historias clinicas:" + containerMetadataService.retrieveContainerMetadataInfo();
     }

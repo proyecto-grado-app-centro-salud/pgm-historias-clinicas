@@ -11,6 +11,7 @@ import com.example.microserviciohistoriasclinicas.repository.NotaEvolucionReposi
 import com.example.microserviciohistoriasclinicas.repository.UsuariosRepositoryJPA;
 import com.example.microserviciohistoriasclinicas.util.specifications.NotasEvolucionSpecification;
 
+import jakarta.transaction.Transactional;
 import net.sf.jasperreports.engine.JRException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,9 +48,9 @@ public class NotasEvolucionService {
     private ConvertirTiposDatosService convertirTiposDatosService;
 
     public NotaEvolucionDto registrarNotaEvolucion(NotaEvolucionDto notaEvolucionDto) {
-        UsuarioEntity medicoEntity = usuariosRepositoryJPA.findById(notaEvolucionDto.getIdMedico())
+        UsuarioEntity medicoEntity = usuariosRepositoryJPA.findByIdUsuarioAndDeletedAtIsNull(notaEvolucionDto.getIdMedico())
         .orElseThrow(() -> new RuntimeException("Medico no encontrado"));
-        HistoriaClinicaEntity historiaClinicaEntity = historiaClinicaRepositoryJPA.findById(notaEvolucionDto.getIdHistoriaClinica())
+        HistoriaClinicaEntity historiaClinicaEntity = historiaClinicaRepositoryJPA.findByIdHistoriaClinicaAndDeletedAtIsNull(notaEvolucionDto.getIdHistoriaClinica())
         .orElseThrow(() -> new RuntimeException("Historia clinica no encontrada"));
         NotaEvolucionEntity notaEvolucionEntity = new NotaEvolucionEntity();
         notaEvolucionEntity.setCambiosPacienteResultadosTratamiento(notaEvolucionDto.getCambiosPacienteResultadosTratamiento());
@@ -79,7 +81,7 @@ public class NotasEvolucionService {
     }
 
     public NotaEvolucionDto obtenerNotaEvolucionPorId(Integer id) {
-        NotaEvolucionEntity notaEvolucionEntity = notaEvolucionRepository.findById(id)
+        NotaEvolucionEntity notaEvolucionEntity = notaEvolucionRepository.findByIdNotaEvolucionAndDeletedAtIsNull(id)
             .orElseThrow(() -> new RuntimeException("Nota de evolución no encontrada"));
         return new NotaEvolucionDto().convertirNotaEvolucionEntityANotaEvolucionDto(notaEvolucionEntity);
     }
@@ -95,9 +97,9 @@ public class NotasEvolucionService {
     public NotaEvolucionDto actualizarNotaEvolucion(Integer idNotaEvolucion, NotaEvolucionDto notaEvolucionDto) {
         NotaEvolucionEntity notaEvolucionEntity = notaEvolucionRepository.findByIdNotaEvolucionAndDeletedAtIsNull(idNotaEvolucion)
             .orElseThrow(() -> new RuntimeException("Nota de evolución no encontrada"));
-        UsuarioEntity medicoEntity = usuariosRepositoryJPA.findById(notaEvolucionDto.getIdMedico())
+        UsuarioEntity medicoEntity = usuariosRepositoryJPA.findByIdUsuarioAndDeletedAtIsNull(notaEvolucionDto.getIdMedico())
         .orElseThrow(() -> new RuntimeException("Medico no encontrado"));
-        HistoriaClinicaEntity historiaClinicaEntity = historiaClinicaRepositoryJPA.findById(notaEvolucionDto.getIdHistoriaClinica())
+        HistoriaClinicaEntity historiaClinicaEntity = historiaClinicaRepositoryJPA.findByIdHistoriaClinicaAndDeletedAtIsNull(notaEvolucionDto.getIdHistoriaClinica())
         .orElseThrow(() -> new RuntimeException("Historia clinica no encontrada"));
         notaEvolucionEntity.setCambiosPacienteResultadosTratamiento(notaEvolucionDto.getCambiosPacienteResultadosTratamiento());
         notaEvolucionEntity.setHistoriaClinica(historiaClinicaEntity);
@@ -112,5 +114,10 @@ public class NotasEvolucionService {
             .orElseThrow(() -> new RuntimeException("Nota de evolución no encontrada"));
             notaEvolucionEntity.markAsDeleted();
         notaEvolucionRepository.save(notaEvolucionEntity);
+    }
+
+    @Transactional
+    public void deleteNotasEvolucionDeHistoriaClinica(int idHistoriaClinica) {
+       notaEvolucionRepository.markAsDeletedAllNotasEvolucionFromHistoriaClinica(idHistoriaClinica,new Date());
     }
 }

@@ -30,6 +30,8 @@ import com.example.microserviciohistoriasclinicas.model.dtos.HistoriaClinicaDto;
 import com.example.microserviciohistoriasclinicas.repository.HistoriaClinicaRepositoryJPA;
 import com.example.microserviciohistoriasclinicas.service.ContainerMetadataService;
 import com.example.microserviciohistoriasclinicas.service.HistoriaClinicaService;
+
+import jakarta.annotation.security.PermitAll;
 @RestController
 @RequestMapping(path = "/historias-clinicas")
 public class HistoriaClinicaController {
@@ -42,6 +44,8 @@ public class HistoriaClinicaController {
 	private ContainerMetadataService containerMetadataService;
 
     Logger logger = LoggerFactory.getLogger(HistoriaClinicaController.class);
+
+    @PermitAll
     @PostMapping()
     public ResponseEntity<HistoriaClinicaDto> registrarHistoriaClinica(@RequestBody HistoriaClinicaDto historiaClinicaDto) {
         try {
@@ -52,6 +56,8 @@ public class HistoriaClinicaController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PermitAll
     @PutMapping("/{id}")
     public ResponseEntity<HistoriaClinicaDto> actualizarHistoriaClinica(@PathVariable Integer id, @RequestBody HistoriaClinicaDto actualizada) {
         try {
@@ -62,6 +68,8 @@ public class HistoriaClinicaController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
+
+    @PermitAll
     @PutMapping("/unir-historias-clinicas")
     public ResponseEntity<Void> unirHistorias(@RequestBody Map<String,Integer> historias) {
         try {
@@ -72,6 +80,8 @@ public class HistoriaClinicaController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
+
+    @PermitAll
     @GetMapping("/paciente/{idPaciente}")
     public ResponseEntity<Page<HistoriaClinicaDto>> controllerMethod(@PathVariable int idPaciente,@RequestParam(required = false) String fechaInicio, @RequestParam(required = false) String fechaFin ,@RequestParam(required = false) String nombreMedico,@RequestParam(required = false) String nombreEspecialidad,@RequestParam(required = false) String diagnosticoPresuntivo,@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size) {
         try {
@@ -81,6 +91,8 @@ public class HistoriaClinicaController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
+
+    @PermitAll
     @GetMapping("/{idHistoriaClinica}")
     public ResponseEntity<HistoriaClinicaDto> obtenerDetalleHistoriaClinica(@PathVariable int idHistoriaClinica) {
         try {
@@ -96,10 +108,14 @@ public class HistoriaClinicaController {
     //     return "OK nueva ci tarde ";
     // }
 
+
+    @PermitAll
     @GetMapping("/nueva-ci-noche")
     public @ResponseBody String obtenerNuevaCi() {
         return "OK nueva ci noche ";
     }
+
+    @PermitAll
     @GetMapping()
     public ResponseEntity<Page<HistoriaClinicaDto>> obtenerTodasHistoriasClinicas(@RequestParam(required = false) String fechaInicio, @RequestParam(required = false) String fechaFin,@RequestParam(required = false) String ciPaciente,@RequestParam(required = false) String nombrePaciente,@RequestParam(required = false) String nombreMedico,@RequestParam(required = false) String nombreEspecialidad,@RequestParam(required = false) String diagnosticoPresuntivo,@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size) {
         try {
@@ -109,6 +125,8 @@ public class HistoriaClinicaController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
+
+    @PermitAll
      @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         try{
@@ -119,6 +137,8 @@ public class HistoriaClinicaController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PermitAll
     @GetMapping("/pdf")
     public ResponseEntity<byte[]> obtenerPDFDeHistoriaClinica(HistoriaClinicaDto historiaClinicaDto) {
         try {
@@ -137,6 +157,8 @@ public class HistoriaClinicaController {
         }
     }
 
+
+    @PermitAll
     @GetMapping("/info-container")
     public @ResponseBody String obtenerInformacionContenedor() {
         return "microservicio historias clinicas:" + containerMetadataService.retrieveContainerMetadataInfo();

@@ -78,7 +78,8 @@ Content-Type: application/json
     "idMedico":1,
     "idEspecialidad":2
 }
-
+###
+DELETE http://localhost:8081/api/microservicio-historias-clinicas/historias-clinicas/978
 
 #consultas-medicas-lb
 #consultas-medicas-sg
