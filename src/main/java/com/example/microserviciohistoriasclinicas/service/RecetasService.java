@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ClientResponse;
 
@@ -29,11 +30,13 @@ public class RecetasService {
     }
 
     public void eliminarRecetasDeHistoriaClinica(int idHistoriaClinica) {
+        String token = SecurityContextHolder.getContext().getAuthentication().getCredentials().toString();
         logger.info("eliminarRecetasDeHistoriaClinica");
         logger.info(lb);
 
         this.webClient.delete()
                 .uri("/recetas/historia-clinica/"+idHistoriaClinica)
+                .header("Authorization", "Bearer " + token)
                 .retrieve()
                 .onStatus(
                     status -> !status.is2xxSuccessful(), 

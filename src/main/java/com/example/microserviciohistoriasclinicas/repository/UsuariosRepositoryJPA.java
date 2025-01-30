@@ -9,10 +9,10 @@ import com.example.microserviciohistoriasclinicas.model.UsuarioEntity;
 
 
 
-public interface UsuariosRepositoryJPA extends JpaRepository<UsuarioEntity, Integer>{
+public interface UsuariosRepositoryJPA extends JpaRepository<UsuarioEntity, String>{
     List<UsuarioEntity> findAllByDeletedAtIsNull();
     Optional<UsuarioEntity> findByCiAndDeletedAtIsNull(String ci);
-    Optional<UsuarioEntity> findByIdUsuarioAndDeletedAtIsNull(int idUsuario);
+    Optional<UsuarioEntity> findByIdUsuarioAndDeletedAtIsNull(String idUsuario);
     Optional<UsuarioEntity> findByCi(String ci);
 
 }

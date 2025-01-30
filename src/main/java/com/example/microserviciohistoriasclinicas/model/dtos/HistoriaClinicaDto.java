@@ -27,10 +27,10 @@ public class HistoriaClinicaDto {
     private String examenFisicoEspecial;
     private String propuestaBasicaDeConducta;
     private String tratamiento;
-    private Integer idPaciente;
+    private String idPaciente;
     private String pacientePropietario;
     private String ciPropietario;
-    private Integer idMedico;
+    private String idMedico;
     private String nombreMedico;
     private Integer idEspecialidad;
     private String nombreEspecialidad;

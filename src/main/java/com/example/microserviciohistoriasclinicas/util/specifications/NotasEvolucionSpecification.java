@@ -69,7 +69,7 @@ public class NotasEvolucionSpecification {
             throw new RuntimeException("Error obtener notas evo por parametros");
         }
     }
-     public static Specification obtenerNotasEvolucionDePacientePorParametros(int idPaciente,Date minDate, Date maxDate,
+     public static Specification obtenerNotasEvolucionDePacientePorParametros(String idPaciente,Date minDate, Date maxDate,
             String nombreMedico, String nombreEspecialidad,
             String diagnosticoPresuntivo) {
           try {

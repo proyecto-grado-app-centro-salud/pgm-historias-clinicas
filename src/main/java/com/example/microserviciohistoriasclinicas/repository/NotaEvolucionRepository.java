@@ -35,7 +35,7 @@ public interface NotaEvolucionRepository extends JpaRepository<NotaEvolucionEnti
     + "JOIN ne.historiaClinica hc "
     + "JOIN hc.paciente p "
     + "WHERE p.idUsuario = :idPaciente")
-    List<NotaEvolucionEntity> obtenerNotasEvolucionPaciente(@Param("idPaciente") int idPaciente);
+    List<NotaEvolucionEntity> obtenerNotasEvolucionPaciente(@Param("idPaciente") String idPaciente);
     Optional<NotaEvolucionEntity> findByIdNotaEvolucionAndDeletedAtIsNull(int idNotaEvolucion);
 
     @Modifying

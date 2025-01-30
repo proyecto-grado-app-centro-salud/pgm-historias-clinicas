@@ -22,9 +22,9 @@ public class NotaEvolucionDto {
     String diagnosticoPresuntivo;
     Integer idEspecialidad;
     String nombreEspecialidad;
-    Integer idMedico;
+    String idMedico;
     String nombreMedico;
-    Integer idPaciente;
+    String idPaciente;
     String pacientePropietario;
     String ciPropietario;
     public static NotaEvolucionDto convertirNotaEvolucionEntityANotaEvolucionDto(NotaEvolucionEntity notaEvolucionEntity) {

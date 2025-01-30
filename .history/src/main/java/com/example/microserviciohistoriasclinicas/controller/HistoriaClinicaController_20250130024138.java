@@ -37,7 +37,6 @@ import com.example.microserviciohistoriasclinicas.service.HistoriaClinicaService
 import jakarta.annotation.security.PermitAll;
 @RestController
 @RequestMapping(path = "/historias-clinicas")
-@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,RequestMethod.OPTIONS})
 public class HistoriaClinicaController {
     @Autowired
     HistoriaClinicaRepositoryJPA historiaClinicaRepositoryJPA;

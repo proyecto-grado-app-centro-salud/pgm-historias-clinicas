@@ -97,7 +97,7 @@ public class HistoriaClinicaService {
         historiaClinicaRepositoryJPA.save(historiaClinicaEntity);
         return new HistoriaClinicaDto().convertirHistoriaClinicaEntityAHistoriaClinicaDto(historiaClinicaEntity);
     }
-    public Page<HistoriaClinicaDto> obtenerHistoriasClinicasDePaciente(int idPaciente, String fechaInicio, String fechaFin, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
+    public Page<HistoriaClinicaDto> obtenerHistoriasClinicasDePaciente(String idPaciente, String fechaInicio, String fechaFin, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
         Pageable pageable = Pageable.unpaged();
         if(page!=null && size!=null){
             pageable = PageRequest.of(page, size);
@@ -150,13 +150,14 @@ public class HistoriaClinicaService {
         HistoriaClinicaEntity historiaClinicaEntity = historiaClinicaRepositoryJPA.findByIdHistoriaClinicaAndDeletedAtIsNull(idHistoriaClinica)
         .orElseThrow(() -> new RuntimeException("Historia clinica no encontrada"));
         historiaClinicaEntity.markAsDeleted();
-        historiaClinicaRepositoryJPA.save(historiaClinicaEntity);
         examenesComplementariosService.eliminarExamenesComplemetariosDeHistoriaClinica(idHistoriaClinica);
         notasEvolucionService.deleteNotasEvolucionDeHistoriaClinica(idHistoriaClinica);
         notasReferenciaService.eliminarNotasReferenciaDeHistoriaClinica(idHistoriaClinica);
         papeletasInternacionService.eliminarPapeletasInternacionDeHistoriaClinica(idHistoriaClinica);
         recetasService.eliminarRecetasDeHistoriaClinica(idHistoriaClinica);
         solicitudesInterconsultasService.eliminarSolicitudesInterconsultasDeHistoriaClinica(idHistoriaClinica);
+        historiaClinicaRepositoryJPA.save(historiaClinicaEntity);
+
     }
 
 

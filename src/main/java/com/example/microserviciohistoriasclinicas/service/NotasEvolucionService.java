@@ -69,7 +69,7 @@ public class NotasEvolucionService {
         Page<NotaEvolucionEntity> notasEntitiesPage=notaEvolucionRepository.findAll(spec,pageable);
         return notasEntitiesPage.map(NotaEvolucionDto::convertirNotaEvolucionEntityANotaEvolucionDto);
     }
-    public Page<NotaEvolucionDto> obtenerTodasNotasEvolucionDePaciente(int idPaciente,String fechaInicio, String fechaFin, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
+    public Page<NotaEvolucionDto> obtenerTodasNotasEvolucionDePaciente(String idPaciente,String fechaInicio, String fechaFin, String nombreMedico, String nombreEspecialidad, String diagnosticoPresuntivo, Integer page, Integer size) {
         Pageable pageable = Pageable.unpaged();
         if(page!=null && size!=null){
             pageable = PageRequest.of(page, size);

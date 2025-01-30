@@ -38,7 +38,6 @@ import jakarta.annotation.security.PermitAll;
 
 @RestController
 @RequestMapping(path = "/notas-evolucion")
-@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,RequestMethod.OPTIONS})
 public class NotaEvolucionController {
     @Autowired
 	private ContainerMetadataService containerMetadataService;

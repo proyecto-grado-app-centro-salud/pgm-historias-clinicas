@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ClientResponse;
 
@@ -33,9 +34,11 @@ public class ExamenesComplementariosService {
     public void eliminarExamenesComplemetariosDeHistoriaClinica(int idHistoriaClinica) {
         logger.info("eliminarExamenesComplemetariosDeHistoriaClinica");
         logger.info(lb);
+        String token = SecurityContextHolder.getContext().getAuthentication().getCredentials().toString();
 
         this.webClient.delete()
                 .uri("/examenes-complementarios/historia-clinica/"+idHistoriaClinica)
+                .header("Authorization", "Bearer " + token)
                 .retrieve()
                 .onStatus(
                     status -> !status.is2xxSuccessful(), 
